@@ -7,12 +7,13 @@ const state = {
 
 const mutations = {
   GET_SRTIFICATE(state, payload) {
-    this.state.sertificate = payload;
+    state.sertificate = payload;
   }
 };
 
 const actions = {
   getSertificate(context, payload) {
+   
     axios({
       method: 'GET',
       baseURL: `${state.origin}/v2/certificates/${payload}`,

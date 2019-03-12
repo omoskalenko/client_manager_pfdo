@@ -1,54 +1,62 @@
 <template>
-        <div class="container">
-          <div class="row">
-            
-          </div>
-          <div class="row ">
-            <button @click="getSert('9905000110')">Получить сертификат</button>
-            <p>{{ sertificate }}</p>
+  <div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="profile_info">
+          <div class="avatar"></div>
+          <h2>Имя пользователя</h2>
+        </div>
+      </div>
+    </div>
 
-          </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="find_sert">
+        <button @click="getSert('9905000110')">Найти сертификат</button>
+
+        <div class="sertificate_card" v-if="sertificate">
+            <h2>Номер {{ sertificate.number }}</h2>
+            <ul>
+              <li>Имя {{ sertificate.name }}</li>
+              <li>Фамилия {{ sertificate.soname }}</li>
+              <li>Отчество {{ sertificate.phname }}</li>
+              <li>Активированый {{ sertificate.actual == 1 ? 'Да' : 'Нет'}}</li>
+              <li>{{ sertificate.cert_group_name }}</li>
+              <li></li>
+            </ul>
+        </div>
         </div>
         
+      </div>
+    </div>
+
+  </div>
 </template>
-
 <script>
-
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
-  components: {
-    
-  },
+  components: {},
   computed: {
-    ...mapGetters([ 'sertificate' ])
+    ...mapGetters(["sertificate"])
   },
 
   methods: {
     getSert(number) {
-      this.$store.dispatch('getSertificate', number)
+      if(localStorage.getItem('expires_at') >= Date.now) {
+        this.refreshToken();
+      }
+      this.$store.dispatch("getSertificate", number);
+    },
+
+    refreshToken() {
+      this.$store.dispatch('refreshToken');
     }
   }
-}
+};
 </script>
 
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+
 </style>

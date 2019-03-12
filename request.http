@@ -5,8 +5,8 @@
  
 # Пример просроченного access_token’а: a56c3787fd94d31cdbe8dc385314301d98a9b95b
 
-@access_token = 892ce3dcdac1a13f2b41115dcd6db3958e630bda
-@refresh_token = eb9623cf67cb73017add5a5444e320730ceed2e9
+@access_token = 36daa1a42c21220cc34755c258b1f32e41b40218
+@refresh_token = 9a9bf176f9d9fc3931cd10395f7ac759ca4220e8
 @na_access_token = db1e75eb7ffa3f09c6413247b2a04e7d70be658c
 # @access_token = {{na_access_token}}
 
@@ -30,7 +30,7 @@ Content-Type: application/json
  
 {
     "grant_type": "refresh_token",
-    "refresh_token": "9d2fdc493ca8c06d734c17fda56bb818c241c875",
+    "refresh_token": "9a9bf176f9d9fc3931cd10395f7ac759ca4220e8",
     "client_id": "candidate_app",
     "client_secret": "vuejsispower"
 }
