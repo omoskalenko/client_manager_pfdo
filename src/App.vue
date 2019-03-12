@@ -1,12 +1,44 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    
+      <div class="container-fluid">
+        <div class="container">
+          <div class="row ">
+            <button @click="getSert('9905000110')">Получить сертификат</button>
+            <p>{{ sertificate }}</p>
+              <Login />
+
+          </div>
+        </div>
+        
+      </div>
   </div>
 </template>
+
+<script>
+import Login from './components/Login.vue'
+import { mapGetters } from 'vuex'
+export default {
+  components: {
+    Login
+  },
+  // data() {
+  //   return {
+  //     sertificate: ''
+  //   }
+  // },
+  computed: {
+    ...mapGetters([ 'sertificate' ])
+  },
+
+  methods: {
+    getSert(number) {
+      this.$store.dispatch('getSertificate', number)
+    }
+  }
+}
+</script>
+
 
 <style lang="scss">
 #app {
