@@ -6,7 +6,7 @@ const state = {
 };
 
 const mutations = {
-  GET_SRTIFICATE(state, payload) {
+  SET_SRTIFICATE(state, payload) {
     state.sertificate = payload;
   }
 };
@@ -24,7 +24,7 @@ const actions = {
       }
     })
       .then(res => {
-        context.commit('GET_SRTIFICATE', res.data.data);
+        context.commit('SET_SRTIFICATE', res.data.data);
       });
   },
   

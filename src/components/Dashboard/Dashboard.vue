@@ -1,12 +1,10 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <NavPanel />
+ 
     <div class="row">
-      <div class="col-md-2">
-        <div class="profile_info">
-          <div class="avatar"></div>
-          <h2>Имя пользователя</h2>
-        </div>
-      </div>
+
+      <SidePanel />
 
       <div class="col-md-10">
         <div class="find_sert">
@@ -31,8 +29,14 @@
 <script>
 import { mapGetters } from "vuex";
 
+import NavPanel from "../NavPanel/NavPanel.vue";
+import SidePanel from "../SidePanel/SidePanel.vue";
+
 export default {
-  components: {},
+  components: {
+    NavPanel,
+    SidePanel
+  },
   computed: {
     ...mapGetters(["sertificate"])
   },
@@ -60,4 +64,7 @@ export default {
 
 
 <style lang="scss">
+.container-fluid {
+  height: 100%;
+}
 </style>

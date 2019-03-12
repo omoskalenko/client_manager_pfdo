@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-      <div class="container-fluid">
-            <div class="nav" v-if="shuldShowNavigation">
+   
+            <!-- <div class="nav" v-if="shuldShowNavigation">
               <button class="btn btn-primary" @click="logout">Выход</button>
-            </div>
+            </div> -->
         <router-view></router-view>
 
-        </div>   
+      
   </div>
 </template>
 
@@ -21,17 +21,13 @@ export default {
     Login,
     Dashboard
   },
-  computed: {
-    shuldShowNavigation() {
-      return this.$route.path !== '/login'
-    }
-  },
+  // computed: {
+  //   shuldShowNavigation() {
+  //     return this.$route.path !== '/login'
+  //   }
+  // },
 
-  methods: {
-    logout() {
-      this.$store.dispatch('logout').then(() => this.$router.push('/login'))
-    }
-  }
+
   
 }
 </script>
@@ -44,16 +40,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  height: 100%;
 }
 </style>
