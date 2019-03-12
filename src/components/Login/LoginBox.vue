@@ -35,6 +35,8 @@
 
 <script>
 export default {
+  name: 'LoginBox',
+  
   data() {
     return {
       username: 'candidate_api_manager',
@@ -45,7 +47,7 @@ export default {
   methods: {
     login(event) {
       event.preventDefault();
-      this.$store.dispatch('authorization', { username: this.username, password: this.password })
+      this.$store.dispatch('login', { username: this.username, password: this.password }).then(() => this.$router.push('/dashboard'))
     }
   }
 }
@@ -54,6 +56,7 @@ export default {
 
 
 <style lang="scss" scoped>
+
 .login_form__wrapper {
   margin: 50px auto;
   padding: 80px;
@@ -61,7 +64,9 @@ export default {
   height: 350px;
   width: 500px;
   border: 1px solid #eeeeee;
-  box-shadow: 2px 2px 20px 1px rgb(238, 238, 238)
+  box-shadow: 2px 2px 20px 1px rgb(238, 238, 238);
+  background-color: #fff;
+  border-radius: 3px;
 }
 input::placeholder {
   color: #999;

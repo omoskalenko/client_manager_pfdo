@@ -1,41 +1,38 @@
 <template>
   <div id="app">
-    
       <div class="container-fluid">
-        <div class="container">
-          <div class="row ">
-            <button @click="getSert('9905000110')">Получить сертификат</button>
-            <p>{{ sertificate }}</p>
-              <Login />
+            <div class="nav" v-if="shuldShowNavigation">
+              <button @click="logout">Выход</button>
+            </div>
+        <router-view></router-view>
 
-          </div>
-        </div>
-        
-      </div>
+        </div>   
   </div>
 </template>
 
 <script>
-import Login from './components/Login.vue'
 import { mapGetters } from 'vuex'
+
+import Login from './components/Login/Login.vue'
+import Dashboard from './components/Dashboard/Dashboard.vue'
+
 export default {
   components: {
-    Login
+    Login,
+    Dashboard
   },
-  // data() {
-  //   return {
-  //     sertificate: ''
-  //   }
-  // },
   computed: {
-    ...mapGetters([ 'sertificate' ])
+    shuldShowNavigation() {
+      return this.$route.path !== '/login'
+    }
   },
 
   methods: {
-    getSert(number) {
-      this.$store.dispatch('getSertificate', number)
+    logout() {
+      this.$store.dispatch('logout').then(() => this.$router.push('/login'))
     }
   }
+  
 }
 </script>
 
@@ -48,6 +45,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 #nav {
   padding: 30px;
   a {
