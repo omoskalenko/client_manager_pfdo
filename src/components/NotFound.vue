@@ -12,17 +12,6 @@
 
 </template>
 
-<script>
-import LoginBox from '@/components/Login/LoginBox.vue'
-
-export default {
-  components: {
-    LoginBox
-  },
-}
-</script>
-
-
 <style lang="scss">
 .message_box {
   display: block;

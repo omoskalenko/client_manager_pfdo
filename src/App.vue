@@ -2,7 +2,7 @@
   <div id="app">
       <div class="container-fluid">
             <div class="nav" v-if="shuldShowNavigation">
-              <button @click="logout">Выход</button>
+              <button class="btn btn-primary" @click="logout">Выход</button>
             </div>
         <router-view></router-view>
 

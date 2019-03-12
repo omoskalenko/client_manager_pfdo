@@ -12,8 +12,9 @@ const mutations = {
 };
 
 const actions = {
+
   getSertificate(context, payload) {
-   
+
     axios({
       method: 'GET',
       baseURL: `${state.origin}/v2/certificates/${payload}`,
@@ -25,7 +26,8 @@ const actions = {
       .then(res => {
         context.commit('GET_SRTIFICATE', res.data.data);
       });
-  }
+  },
+  
 };
 
 const getters = {
