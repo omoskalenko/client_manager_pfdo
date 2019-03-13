@@ -43,22 +43,11 @@ export default {
 
   methods: {
     getSert(number) {
-      if (this.isExpire()) {
-        this.refreshToken().then(() => {
-          this.$store.dispatch("getSertificate", number);
-        });
-      }
       this.$store.dispatch("getSertificate", number);
-    },
+    },    
 
-    isExpire() {
-      return Date.now() >= localStorage.getItem("expires_at");
-    },
-
-    refreshToken() {
-      return this.$store.dispatch("refreshToken");
-    }
   }
+
 };
 </script>
 

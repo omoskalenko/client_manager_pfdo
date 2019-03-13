@@ -1,4 +1,4 @@
-import axios from 'axios';
+import API from '../../../api';
 
 const state = {
   origin: 'https://api-test.pfdo.ru',
@@ -14,16 +14,9 @@ const mutations = {
 const actions = {
 
   getSertificate(context, payload) {
-
-    axios({
-      method: 'GET',
-      baseURL: `${state.origin}/v2/certificates/${payload}`,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-      }
-    })
+    API.getSertificate(payload)
       .then(res => {
+        console.log('Сертификат получен');
         context.commit('SET_SRTIFICATE', res.data.data);
       });
   },

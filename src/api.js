@@ -1,83 +1,83 @@
 import axios from 'axios';
 // const axios = require('axios');
 
-export default class API {
+class PFDO_API {
   constructor() {
-    this._username = null;
-    this._password = null;
-    this._origin = 'https://api-test.pfdo.ru'
-    this.expires_at = null;
-    // this._ACCESS_DATA = {
-    //   access_token: localStorage.getItem('access_token'),
-    //   expires_in: localStorage.getItem('expires_in'),
-    //   token_type: localStorage.getItem('token_type'),
-    //   scope: localStorage.getItem('scope'),
-    //   refresh_token: localStorage.getItem('access_token')
-    // }
+    this._origin = 'https://api-test.pfdo.ru';
 
-    this._REQUEST_PARAMS = {
-      AUTORIZED: {
-        method: 'POST',
-        baseURL: `${this._origin}/oauth2/token`,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: {
-          "grant_type": "password",
-          "username": this._username,
-          "password": this._password,
-          "client_id": "candidate_app",
-          "client_secret": "vuejsispower"
-        }
-      },
-      GET_CERTIFICATE: {
-        method: 'GET',
-        baseURL: `${this._origin}/v2/certificates/${this.number}`,
-        headers: this._HEADERS
-      }
+    this.token = localStorage.getItem('access_token');
 
+    axios.defaults.headers.common['Content-Type'] = `application/json`;
+    if (this.token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
     }
   }
-  get ACCESS_DATA() {
-    return this._ACCESS_DATA;
-  }
-
-  set ACCESS_DATA(data) {
-    this._ACCESS_DATA = data
-  }
-
-  _isExpire() {
-    return Date.now === this.expires_at
-  }
-
-  _refreshToken() {
-  
-  }
-
-  _init(data) {
-
-    this.ACCESS_DATA = data;
-    this.expires_at = Date.now() + this.ACCESS_DATA.expires_in;
-    this._REQUEST_PARAMS._HEADERS = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-      }
-  }
-
-  autorized({ username, password }) {
+ 
+  _isExpired() {
+    console.log(Date.now(), localStorage.getItem("expires_at"));
     
+    return Date.now() >= localStorage.getItem("expires_at");
   }
 
-  getSertificate(number) {
+  // _tryToken(fn, arg) {
+  //   if (this._isExpired()) {
+  //     this.refreshToken().then(() => {
+  //       return fn(arg);
+  //     });
+  //   }
+  //   return fn(arg);
+  // }
 
+  _reqSertificate(number) {
     return axios({
       method: 'GET',
       baseURL: `${this._origin}/v2/certificates/${number}`,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this._ACCESS_DATA.access_token}`,
-      }
     })
   }
+
+  _refreshToken() {
+    return axios({
+      method: 'POST',
+      baseURL: `${this._origin}/oauth2/token`,
+      data: {
+        "grant_type": 'refresh_token',
+        "refresh_token": localStorage.getItem('refresh_token'),
+        "client_id": "candidate_app",
+        "client_secret": "vuejsispower"
+      }
+    }).catch(() => console.log('Ошибка обновления токена'))
+  }
+
+  login({ username, password }) {
+    if (!localStorage.getItem('access_token')) {
+      return axios({
+        method: 'POST',
+        baseURL: `${this._origin}/oauth2/token`,
+        data: {
+          "grant_type": "password",
+          "username": username,
+          "password": password,
+          "client_id": "candidate_app",
+          "client_secret": "vuejsispower"
+        }
+      }).then(res => {  
+        this.token = res.data.access_token;      
+        axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+        return new Promise(resolve => {
+          resolve(res)
+        })
+      })
+    }
+  }
+  
+  getSertificate(number) {
+
+    return this._reqSertificate(number)
+
+  }
+  
 }
 
+const API = new PFDO_API();
+
+export default API;
