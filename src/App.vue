@@ -1,12 +1,9 @@
 <template>
   <div id="app">
-   
-            <!-- <div class="nav" v-if="shuldShowNavigation">
+    <!-- <div class="nav" v-if="shuldShowNavigation">
               <button class="btn btn-primary" @click="logout">Выход</button>
-            </div> -->
-        <router-view></router-view>
-
-      
+    </div>-->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,6 +23,17 @@ export default {
   //     return this.$route.path !== '/login'
   //   }
   // },
+  created: {
+    axios.interceptors.response.use(undefined, function (err) {
+    return new Promise(function (resolve, reject) {
+    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+    // if you ever get an unauthorized, logout the user
+      this.$store.dispatch('AUTH_LOGOUT')
+    // you can also redirect to /login if needed !
+      }
+      throw err;
+    });
+  }
 
 
   
@@ -35,7 +43,7 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

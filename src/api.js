@@ -1,6 +1,7 @@
 import axios from 'axios';
 // const axios = require('axios');
 
+
 class PFDO_API {
   constructor() {
     this._origin = 'https://api-test.pfdo.ru';
