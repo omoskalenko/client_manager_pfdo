@@ -26,8 +26,6 @@ export default {
   //     return this.$route.path !== '/login'
   //   }
   // },
-
-
   
 }
 </script>
