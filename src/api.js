@@ -65,22 +65,7 @@ export default class API {
   }
 
   autorized({ username, password }) {
-    if(!this.ACCESS_DATA) {
-      return axios({
-        method: 'POST',
-        baseURL: `${this._origin}/oauth2/token`,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: {
-          "grant_type": "password",
-          "username": username,
-          "password": password,
-          "client_id": "candidate_app",
-          "client_secret": "vuejsispower"
-        }
-      });
-    }
+    
   }
 
   getSertificate(number) {
