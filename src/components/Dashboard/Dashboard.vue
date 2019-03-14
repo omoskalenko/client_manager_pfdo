@@ -1,10 +1,9 @@
 <template>
-  <div class="container-fluid">
-    <NavPanel />
+<div>
+  <NavBar />
  
-    <div class="row">
 
-      <SidePanel />
+      <SideBar />
 
       <div class="col-md-10">
         <div class="find_sert">
@@ -23,19 +22,19 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+</div>
+
 </template>
 <script>
 import { mapGetters } from "vuex";
 
-import NavPanel from "../NavPanel/NavPanel.vue";
-import SidePanel from "../SidePanel/SidePanel.vue";
+import NavBar from "../NavBar/NavBar.vue";
+import SideBar from "../SideBar/SideBar.vue";
 
 export default {
   components: {
-    NavPanel,
-    SidePanel
+    NavBar,
+    SideBar
   },
 
   created() {
