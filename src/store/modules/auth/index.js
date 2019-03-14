@@ -40,10 +40,9 @@ const actions = {
       .then(res => {
         commit('AUTH_SUCCESS', res.data);
         localStorage.setItem('expires_at', state.expires_at);
-        for (let key in res.data) {
-          localStorage.setItem(key, state.session[key]);
-        }
-      }).catch(error => {
+      }).catch(error => { 
+        // console.log(error);
+        // error.message === 'Unable to retrieve user information'      
         commit('AUTH_ERROR', error);
       })
   },
@@ -56,16 +55,14 @@ const actions = {
     });
   },
 
-  refreshToken({ commit }) {
-    API.refreshToken()
-      .then(res => {
-        commit('AUTH_SUCCESS', res.data);
-        localStorage.setItem('expires_at', state.expires_at);
-        for (let key in res.data) {
-          localStorage.setItem(key, state.session[key]);
-        }
-      })
-  },
+  // refreshToken({ commit }) {
+  //   API.refreshToken()
+  //     .then(res => {
+  //       commit('AUTH_SUCCESS', res.data);
+  //       localStorage.setItem('expires_at', state.expires_at);
+        
+  //     })
+  // },
 
   sessionIsClosed() {
     return state.session === null;
@@ -75,6 +72,7 @@ const actions = {
 
 const getters = {
   status: state => state.status,
+  error: state => state.error,
 }
 
 const login = {

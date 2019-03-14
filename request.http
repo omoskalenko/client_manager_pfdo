@@ -30,7 +30,7 @@ Content-Type: application/json
  
 {
     "grant_type": "refresh_token",
-    "refresh_token": "a2970b6fd7eeb1bd316fc4d21d93fa214e926333",
+    "refresh_token": "98eeadce1a2374c4451c94fd7ec12727dc121396",
     "client_id": "candidate_app",
     "client_secret": "vuejsispower"
 }

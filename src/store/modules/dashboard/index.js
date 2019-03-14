@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import API from '../../../api';
 
 const state = {
@@ -17,8 +18,9 @@ const actions = {
     API.getSertificate(payload)
       .then(res => {
         console.log('Сертификат получен');
+        
         context.commit('SET_SRTIFICATE', res.data.data);
-      });
+      }).catch(error => console.log('Сертификат не получен'));
   },
   
 };

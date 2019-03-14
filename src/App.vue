@@ -9,6 +9,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios';
 
 import Login from './components/Login/Login.vue'
 import Dashboard from './components/Dashboard/Dashboard.vue'
@@ -18,26 +19,8 @@ export default {
     Login,
     Dashboard
   },
-  // computed: {
-  //   shuldShowNavigation() {
-  //     return this.$route.path !== '/login'
-  //   }
-  // },
-  created: {
-    axios.interceptors.response.use(undefined, function (err) {
-    return new Promise(function (resolve, reject) {
-    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-    // if you ever get an unauthorized, logout the user
-      this.$store.dispatch('AUTH_LOGOUT')
-    // you can also redirect to /login if needed !
-      }
-      throw err;
-    });
-  }
-
-
-  
 }
+
 </script>
 
 

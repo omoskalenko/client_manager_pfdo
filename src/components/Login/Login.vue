@@ -24,7 +24,7 @@
               placeholder="Пароль"
             >
           </div>
-
+        <p v-if="status === 'error'">{{ error.message }}</p>
           <!-- <div class="form-group form-check">
         <input type="checkbox" id="remember">
         <label for="remember">Запомнить меня</label>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Login",
 
@@ -45,6 +46,14 @@ export default {
       username: "candidate_api_manager",
       password: "Us3oUs3M5M"
     };
+  },
+  computed: {
+    status() {
+      return this.$store.getters.status
+    },
+    error() {
+      return this.$store.getters.error
+    },
   },
 
   methods: {
