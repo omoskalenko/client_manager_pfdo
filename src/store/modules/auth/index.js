@@ -1,7 +1,6 @@
 import API from '../../../api';
 
 const state = {
-  expires_at: null,
   session: null,
   status: null,
   errorDetail: null
@@ -11,9 +10,6 @@ const mutations = {
   AUTH_SUCCESS(state, payload) {
     state.status = 'success'
     state.session = payload;
-    if (!actions.sessionIsClosed()) {
-      state.expires_at = Date.now() + 10 * 1000;
-    }
   },
 
   AUTH_REQUEST(state) {
@@ -28,8 +24,7 @@ const mutations = {
   LOGOUT(state, error) {
     state.expires_at = null,
     state.session = null,
-    state.status = null,
-    state.errorDetail = error    
+    state.status = error ? "error" : null
   }
 
 };
@@ -52,27 +47,21 @@ const actions = {
       localStorage.clear();
       commit('LOGOUT', payload);
       resolve();
-    });
+    })
   },
 
-  // refreshToken({ commit }) {
-  //   API.refreshToken()
-  //     .then(res => {
-  //       commit('AUTH_SUCCESS', res.data);
-  //       localStorage.setItem('expires_at', state.expires_at);
-        
-  //     })
-  // },
-
-  sessionIsClosed() {
-    return state.session === null;
-  }
+  // autorefreshToken(context, time) {
+  //   return setInterval(() => {
+  //     return API.refreshToken()
+  //      });
+  //   }, time * 1000);
+  // }
 
 };
 
 const getters = {
   status: state => state.status,
-  error: state => state.error,
+  errorDetail: state => state.errorDetail,
 }
 
 const login = {

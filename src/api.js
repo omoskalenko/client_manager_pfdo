@@ -32,7 +32,7 @@ class PFDO_API {
           // console.log(error.response, error.config);
           
           if (status === 401) {
-            return this._refreshToken()
+            return this.refreshToken()
               .then(() => {
                 originalRequest.headers['Authorization'] = `Bearer ${this.token}`
                 return axios.request(originalRequest)
@@ -59,7 +59,7 @@ class PFDO_API {
     })
   }
 
-  _refreshToken() {
+  refreshToken() {
     return axios({
       method: 'POST',
       baseURL: `https://api-test.pfdo.ru/oauth2/token`,

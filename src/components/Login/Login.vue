@@ -4,7 +4,7 @@
       
       <div class="login_form__wrapper">
        <div class="error_message" :style="errorStyle">
-          <p v-if="status === 'error'">{{ error.message }} <br/> Неверное имя пользователя или пароль</p>
+          <p v-if="status === 'error'">{{ error.message }} </p>
        </div>
         <form>
           <div class="form-group">
@@ -58,7 +58,7 @@ export default {
       return this.$store.getters.status
     },
     error() {
-      return this.$store.getters.error
+      return this.$store.getters.errorDetail
     },
   },
 

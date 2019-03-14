@@ -8,7 +8,7 @@
 
       <div class="col-md-10">
         <div class="find_sert">
-          <button @click="getSert('9905000110')">Найти сертификат</button>
+          <button @click="getSertificate('9905000110')">Найти сертификат</button>
 
           <div class="sertificate_card" v-if="sertificate">
             <h2>Номер {{ sertificate.number }}</h2>
@@ -37,18 +37,23 @@ export default {
     NavPanel,
     SidePanel
   },
+
+  created() {
+    // this.$store.dispatch('autorefreshToken', 15).catch(error => {
+    //     this.$store.dispatch('logout', error).then(() => {
+    //       this.$router.push("/login");          
+    //     });
+    //   });
+  },
+
   computed: {
-    ...mapGetters(['sertificate', 'error'])
+    ...mapGetters(['sertificate', 'errorDetail'])
   },
 
   methods: {
-    getSert(number) {
+    getSertificate(number) {
       this.$store.dispatch("getSertificate", number)
-      .then(res => {
-        // console.log('3', res);
-      })
       .catch(error => {
-        console.log('3', error.message);
         this.$store.dispatch('logout', error).then(() => {
           this.$router.push("/login");          
         });
