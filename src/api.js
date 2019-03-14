@@ -11,7 +11,7 @@ class PFDO_API {
     // this.token = 'b2ee86c55b01ded14087b950aaa7c1c924e0a152' // old
     // this.token = '99d69dbadd248572dba4ae939e2fec5b63504092' // old 2
     this.refresh_token = localStorage.getItem('refresh_token');
-    // this.refresh_token = '7c528954832910063d7129f4afdd8638d13e0817'; // old
+    // this.refresh_token = 'b2ee86c55b01ded14087b950aaa7c1c924e0a152'; // old
     // this.refresh_token = '16dc567a484aa7d4a93fcd73efec0abcf790f3e0'; // old 2
 
     this._initAxios();
@@ -29,21 +29,19 @@ class PFDO_API {
       (error) => {
           const status = error.response ? error.response.status : null
           const originalRequest = error.config
-          console.log('Axios перехватил ошибку', error.response, error.config);
+          // console.log(error.response, error.config);
           
           if (status === 401) {
-            console.log('Выполняется обновление токена');
             return this._refreshToken()
               .then(() => {
                 originalRequest.headers['Authorization'] = `Bearer ${this.token}`
-                console.log('Токен обновлен, заголовок в запросе обновлен, выполняется новый запрос', error.response, error.config);
                 return axios.request(originalRequest)
-              });
+              })
           }
           if (status === 400) {
-            '400: Токен не обновлен, ошибка запроса',
-            console.log(error.response, error.config);
-            throw error.response.data;
+            console.log('1', error.response.data);
+            
+            throw error.response.data
           }
         });
 
@@ -58,7 +56,7 @@ class PFDO_API {
     return axios({
       method: 'GET',
       baseURL: `${this._origin}/v2/certificates/${number}`,
-    }).catch(error => console.error(error));
+    })
   }
 
   _refreshToken() {
@@ -81,7 +79,7 @@ class PFDO_API {
       return new Promise(resolve => {
         resolve(res)
       })
-    })
+    }).catch(error => { throw error });
 
   }
 

@@ -4,11 +4,12 @@ const state = {
   expires_at: null,
   session: null,
   status: null,
-  error: null
+  errorDetail: null
 };
 
 const mutations = {
   AUTH_SUCCESS(state, payload) {
+    state.status = 'success'
     state.session = payload;
     if (!actions.sessionIsClosed()) {
       state.expires_at = Date.now() + 10 * 1000;
@@ -21,13 +22,14 @@ const mutations = {
   
   AUTH_ERROR(state, error) {
     state.status = 'error'
-    state.error = error
+    state.errorDetail = error
   },
 
-  LOGOUT(state) {
+  LOGOUT(state, error) {
     state.expires_at = null,
     state.session = null,
-    state.status = null
+    state.status = null,
+    state.errorDetail = error    
   }
 
 };
@@ -41,16 +43,14 @@ const actions = {
         commit('AUTH_SUCCESS', res.data);
         localStorage.setItem('expires_at', state.expires_at);
       }).catch(error => { 
-        // console.log(error);
-        // error.message === 'Unable to retrieve user information'      
         commit('AUTH_ERROR', error);
       })
   },
 
-  logout({ commit }) {
+  logout({ commit }, payload) {
     return new Promise(resolve => {
       localStorage.clear();
-      commit('LOGOUT');
+      commit('LOGOUT', payload);
       resolve();
     });
   },

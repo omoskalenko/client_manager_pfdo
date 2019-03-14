@@ -15,12 +15,16 @@ const mutations = {
 const actions = {
 
   getSertificate(context, payload) {
-    API.getSertificate(payload)
+    return API.getSertificate(payload)
       .then(res => {
-        console.log('Сертификат получен');
-        
         context.commit('SET_SRTIFICATE', res.data.data);
-      }).catch(error => console.log('Сертификат не получен'));
+      })
+      .catch(error => { 
+        context.commit('AUTH_ERROR', error);
+        return new Promise((resolve, reject) => {
+          reject(error);
+        })
+       });
   },
   
 };

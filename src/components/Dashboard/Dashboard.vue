@@ -38,12 +38,21 @@ export default {
     SidePanel
   },
   computed: {
-    ...mapGetters(["sertificate"])
+    ...mapGetters(['sertificate', 'error'])
   },
 
   methods: {
     getSert(number) {
-      this.$store.dispatch("getSertificate", number);
+      this.$store.dispatch("getSertificate", number)
+      .then(res => {
+        // console.log('3', res);
+      })
+      .catch(error => {
+        console.log('3', error.message);
+        this.$store.dispatch('logout', error).then(() => {
+          this.$router.push("/login");          
+        });
+      });
     },    
 
   }
