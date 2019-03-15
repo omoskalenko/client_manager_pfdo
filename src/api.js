@@ -8,11 +8,8 @@ class PFDO_API {
     this._origin = 'https://api-test.pfdo.ru';
 
     this.token = localStorage.getItem('access_token');
-    // this.token = 'b2ee86c55b01ded14087b950aaa7c1c924e0a152' // old
-    // this.token = '99d69dbadd248572dba4ae939e2fec5b63504092' // old 2
+
     this.refresh_token = localStorage.getItem('refresh_token');
-    // this.refresh_token = 'b2ee86c55b01ded14087b950aaa7c1c924e0a152'; // old
-    // this.refresh_token = '16dc567a484aa7d4a93fcd73efec0abcf790f3e0'; // old 2
 
     this._initAxios();
   }
@@ -27,25 +24,25 @@ class PFDO_API {
     axios.interceptors.response.use(
       response => response,
       (error) => {
-          const status = error.response ? error.response.status : null
-          const originalRequest = error.config
-          // console.log(error.response, error.config);
-          
-          if (status === 401) {
-            return this.refreshToken()
-              .then(() => {
-                originalRequest.headers['Authorization'] = `Bearer ${this.token}`
-                return axios.request(originalRequest)
-              })
-          }
-          if (status === 400) {
-            console.log('1', error.response.data);
-            
-            throw error.response.data
-          }
-        });
+        const status = error.response ? error.response.status : null
+        const originalRequest = error.config
+        // console.log(error.response, error.config);
 
-      }
+        if (status === 401) {
+          return this.refreshToken()
+            .then(() => {
+              originalRequest.headers['Authorization'] = `Bearer ${this.token}`
+              return axios.request(originalRequest)
+            })
+        }
+        if (status === 400) {
+          console.log('1', error.response.data);
+
+          throw error.response.data
+        }
+      });
+
+  }
 
   _isExpired() {
     return Date.now() >= localStorage.getItem("expires_at");

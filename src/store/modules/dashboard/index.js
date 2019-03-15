@@ -19,14 +19,14 @@ const actions = {
       .then(res => {
         context.commit('SET_SRTIFICATE', res.data.data);
       })
-      .catch(error => { 
+      .catch(error => {
         context.commit('AUTH_ERROR', error);
         return new Promise((resolve, reject) => {
           reject(error);
         })
-       });
+      });
   },
-  
+
 };
 
 const getters = {

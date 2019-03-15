@@ -3,7 +3,8 @@ import API from '../../../api';
 const state = {
   session: null,
   status: null,
-  errorDetail: null
+  errorDetail: null,
+  refreshTimer: null
 };
 
 const mutations = {
@@ -15,7 +16,7 @@ const mutations = {
   AUTH_REQUEST(state) {
     state.status = 'loading'
   },
-  
+
   AUTH_ERROR(state, error) {
     state.status = 'error'
     state.errorDetail = error
@@ -23,8 +24,8 @@ const mutations = {
 
   LOGOUT(state, error) {
     state.expires_at = null,
-    state.session = null,
-    state.status = error ? "error" : null
+      state.session = null,
+      state.status = error ? "error" : null
   }
 
 };
@@ -37,7 +38,7 @@ const actions = {
       .then(res => {
         commit('AUTH_SUCCESS', res.data);
         localStorage.setItem('expires_at', state.expires_at);
-      }).catch(error => { 
+      }).catch(error => {
         commit('AUTH_ERROR', error);
       })
   },
@@ -51,10 +52,9 @@ const actions = {
   },
 
   // autorefreshToken(context, time) {
-  //   return setInterval(() => {
+  //   state.refreshTimer = setInterval(() => {
   //     return API.refreshToken()
-  //      });
-  //   }, time * 1000);
+  //   }, time * 60 * 1000);
   // }
 
 };
