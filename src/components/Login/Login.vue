@@ -1,12 +1,21 @@
 <template>
   <div class="container">
     <div class="row">
-      
       <div class="login_form__wrapper">
-       <div class="error_message" :style="errorStyle">
-          <p v-if="status === 'error'">{{ error.message }} </p>
-       </div>
+        <div class="error_message" :style="errorStyle">
+          <p v-if="status === 'error'">{{ error.message }}</p>
+        </div>
         <form>
+          <div class="form-group">
+            <label for="poit_of_entry">Точка входа</label>
+            <input
+              :value="pointOfEntry"
+              type="text"
+              class="form-control"
+              id="poit_of_entry"
+              placeholder="api.example.com"
+            >
+          </div>
           <div class="form-group">
             <label for="username">Имя пользователя</label>
             <input
@@ -28,13 +37,20 @@
               placeholder="Пароль"
             >
           </div>
-        
-          <!-- <div class="form-group form-check">
-        <input type="checkbox" id="remember">
-        <label for="remember">Запомнить меня</label>
-          </div>-->
-          <button @click="login" class="btn btn-primary">Войти</button>
 
+          <button @click="login" class="btn btn-primary">
+            <div 
+            class="text-center"
+            v-if="status === 'loading'"
+            >
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <span v-else>
+              Войти
+            </span>
+          </button>
         </form>
       </div>
     </div>
@@ -42,31 +58,35 @@
 </template>
 
 <script>
-
 export default {
   name: "Login",
 
   data() {
     return {
+      pointOfEntry: "api-test.pfdo.ru",
       username: "candidate_api_manager",
       password: "Us3oUs3M5M",
-      errorStyle: 'color: tomato'
+      errorStyle: "color: tomato"
     };
   },
   computed: {
     status() {
-      return this.$store.getters.status
+      return this.$store.getters.status;
     },
     error() {
-      return this.$store.getters.errorDetail
-    },
+      return this.$store.getters.errorDetail;
+    }
   },
 
   methods: {
     login(event) {
       event.preventDefault();
       this.$store
-        .dispatch("login", { username: this.username, password: this.password })
+        .dispatch("login", {
+          pointOfEntry: this.pointOfEntry,
+          username: this.username,
+          password: this.password
+        })
         .then(() => this.$router.push("/dashboard"));
     }
   }
@@ -80,7 +100,7 @@ export default {
   margin: 50px auto;
   padding: 30px;
   display: block;
-  height: 350px;
+  // height: 350px;
   width: 500px;
   border: 1px solid #eeeeee;
   box-shadow: 2px 2px 20px 1px rgb(238, 238, 238);

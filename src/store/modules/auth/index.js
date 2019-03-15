@@ -1,20 +1,24 @@
 import API from '../../../api';
 
 const state = {
+  interval: 59,
   session: null,
   status: null,
   errorDetail: null,
-  refreshTimer: null
+  refreshTimer: null,
 };
 
 const mutations = {
   AUTH_SUCCESS(state, payload) {
     state.status = 'success'
     state.session = payload;
+    state.refreshTimer = setInterval(() => {
+      return API.refreshToken();
+    }, state.interval * 60 * 1000);
   },
 
-  AUTH_REQUEST(state) {
-    state.status = 'loading'
+  SET_STATUS(state, payload) {
+    state.status = payload;
   },
 
   AUTH_ERROR(state, error) {
@@ -31,13 +35,19 @@ const mutations = {
 };
 
 const actions = {
-
-  login({ commit }, { username, password }) {
-    commit('AUTH_REQUEST');
+  //Метод login
+  //Принимает объект контекста, объект данных для авторизации(точку входа, имя пользователя и пароль)
+  // выполняется мутация AUTH_REQUEST - отправка запроса
+  //Устанавливается точка входа и передаются маршруты для запросов экземляру класса API
+  //При успешной авторизации выполняется мутация AUTH_SUCCESS
+  //Если ошибка авторизации выполняется мутация AUTH_ERROR
+  
+  login({ commit }, { pointOfEntry, username, password }) {
+    commit('SET_STATUS', 'loading');
+    API.initPointOfEntry(pointOfEntry);
     return API.login({ username, password })
       .then(res => {
         commit('AUTH_SUCCESS', res.data);
-        localStorage.setItem('expires_at', state.expires_at);
       }).catch(error => {
         commit('AUTH_ERROR', error);
       })
@@ -50,12 +60,6 @@ const actions = {
       resolve();
     })
   },
-
-  // autorefreshToken(context, time) {
-  //   state.refreshTimer = setInterval(() => {
-  //     return API.refreshToken()
-  //   }, time * 60 * 1000);
-  // }
 
 };
 

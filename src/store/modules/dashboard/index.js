@@ -2,7 +2,6 @@
 import API from '../../../api';
 
 const state = {
-  origin: 'https://api-test.pfdo.ru',
   sertificate: null,
 };
 
@@ -14,13 +13,19 @@ const mutations = {
 
 const actions = {
 
-  getSertificate(context, payload) {
+  getSertificate({ commit }, payload) {
+    commit('SET_STATUS', 'loading');
     return API.getSertificate(payload)
       .then(res => {
-        context.commit('SET_SRTIFICATE', res.data.data);
+        commit('SET_STATUS', 'success');
+        commit('SET_SRTIFICATE', res.data.data);
+        return new Promise((resolve) => {
+          resolve(res.data);
+        })
       })
       .catch(error => {
-        context.commit('AUTH_ERROR', error);
+        commit('SET_STATUS', 'error');
+        commit('AUTH_ERROR', error);
         return new Promise((resolve, reject) => {
           reject(error);
         })

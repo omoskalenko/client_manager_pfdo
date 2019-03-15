@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import axios from 'axios';
-// const axios = require('axios');
 
-
-class PFDO_API {
-  constructor() {
-    this._origin = 'https://api-test.pfdo.ru';
+class API {
+  constructor(routes) {
+    this._ORIGIN = localStorage.getItem('point_of_entry');
+    this._ROUTES = routes;
 
     this.token = localStorage.getItem('access_token');
 
@@ -18,16 +17,12 @@ class PFDO_API {
     axios.defaults.headers.common['Content-Type'] = `application/json`;
     if (this.token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-
     }
-
     axios.interceptors.response.use(
       response => response,
       (error) => {
         const status = error.response ? error.response.status : null
         const originalRequest = error.config
-        // console.log(error.response, error.config);
-
         if (status === 401) {
           return this.refreshToken()
             .then(() => {
@@ -36,30 +31,16 @@ class PFDO_API {
             })
         }
         if (status === 400) {
-          console.log('1', error.response.data);
-
           throw error.response.data
         }
       });
 
   }
 
-  _isExpired() {
-    return Date.now() >= localStorage.getItem("expires_at");
-  }
-
-
-  _reqSertificate(number) {
-    return axios({
-      method: 'GET',
-      baseURL: `${this._origin}/v2/certificates/${number}`,
-    })
-  }
-
   refreshToken() {
     return axios({
       method: 'POST',
-      baseURL: `https://api-test.pfdo.ru/oauth2/token`,
+      baseURL: `${this._ORIGIN}${this._ROUTES.AUTH}`,
       data: {
         "grant_type": 'refresh_token',
         "refresh_token": this.refresh_token,
@@ -80,11 +61,15 @@ class PFDO_API {
 
   }
 
+  initPointOfEntry(url) {
+    this._ORIGIN = `https://${url}`;
+  }
+
   login({ username, password }) {
     if (!localStorage.getItem('access_token')) {
       return axios({
         method: 'POST',
-        baseURL: `${this._origin}/oauth2/token`,
+        baseURL: `${this._ORIGIN}${this._ROUTES.AUTH}`,
         data: {
           "grant_type": "password",
           "username": username,
@@ -99,6 +84,7 @@ class PFDO_API {
         for (let key in res.data) {
           localStorage.setItem(key, res.data[key]);
         }
+        localStorage.setItem('point_of_entry', this._ORIGIN);
         return new Promise(resolve => {
           resolve(res)
         })
@@ -107,12 +93,46 @@ class PFDO_API {
   }
 
   getSertificate(number) {
-    // this._refreshToken();
-    return this._reqSertificate(number);
+    return axios({
+      method: 'GET',
+      baseURL: `${this._ORIGIN}${this._ROUTES.REQ_SERTIFICATE(number)}`,
+    });
+  }
+
+  activateSertificate(number) {
+    return axios({
+      method: 'PUT',
+      baseURL: `${this._ORIGIN}${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
+      data: {     
+        "actual": 1
+      }
+    }).then(res => console.log(res)
+    );
+  }
+
+  editSertificate(number) {
+    return axios({
+      method: 'PATCH',
+      baseURL: `${this._ORIGIN}${this._ROUTES.EDITING_SERTIFICATE(number)}`,
+    });
   }
 
 }
 
-const API = new PFDO_API();
+const PFDOapiRoutes = {
+  AUTH: '/oauth2/token',
+  CREATE_SERTIFICATE: '/v2/certificates',
+  REQ_SERTIFICATE(number) {
+    return `/v2/certificates/${number}`
+  },
+  ACTIVATE_SERTIFICATE(number) {
+    return `${this.REQ_SERTIFICATE(number)}/actual`
+  },
+  EDITING_SERTIFICATE(number) {
+    return `${this.REQ_SERTIFICATE(number)}/personal`
+  }
+}
 
-export default API;
+const PFDO_API = new API(PFDOapiRoutes);
+
+export default PFDO_API;
