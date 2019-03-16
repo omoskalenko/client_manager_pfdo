@@ -33,9 +33,10 @@
         </div>
         <p class="error" v-if="error">{{error}}</p>
 
-        <SertificateCard 
-        :sertificate="sertificate" 
-        v-if="sertificate && !error"/>
+        <div v-if="sertificate && !error">
+          <SertificateCard  />  
+        </div>
+
 
       </div>
     </div>
@@ -57,12 +58,14 @@ export default {
   data() {
     return {
       number: "000111",
-      error: ""
+      error: "",
+      // sertificate: null
+
     };
   },
 
   computed: {
-  ...mapGetters(["sertificate", "status"])
+  ...mapGetters([ "sertificate", "status" ])
   },
 
   methods: {
@@ -75,7 +78,10 @@ export default {
         this.$store.dispatch("getSertificate", `9905${this.number}`).then(res => {
           if(res.result_message === "Запись не найдена") {
             this.error = "Запись не найдена"
-          }          
+            return;
+          }
+          // this.sertificate = res.data;
+
         })
       }
       

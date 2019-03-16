@@ -6,9 +6,17 @@ const state = {
 };
 
 const mutations = {
-  SET_SRTIFICATE(state, payload) {
+  UPDATE_SRTIFICATE(state, payload) {
     state.sertificate = payload;
+  },
+  ACTIVATE(state) {
+    state.sertificate.actual = 1;
+  },
+  
+  DELETE_SERTIFICATE(state) {
+    state.sertificate = null;
   }
+
 };
 
 const actions = {
@@ -18,7 +26,7 @@ const actions = {
     return API.getSertificate(payload)
       .then(res => {
         commit('SET_STATUS', 'success');
-        commit('SET_SRTIFICATE', res.data.data);
+        commit('UPDATE_SRTIFICATE', res.data.data);
         return new Promise((resolve) => {
           resolve(res.data);
         })
@@ -31,6 +39,10 @@ const actions = {
         })
       });
   },
+
+  setLocalActivateStatus({ commit }) {
+    commit('ACTIVATE');
+  }
 
 };
 

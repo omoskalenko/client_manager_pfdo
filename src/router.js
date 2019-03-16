@@ -3,6 +3,8 @@ import Router from 'vue-router'
 
 import Dashboard from './components/Dashboard/Dashboard.vue'
 import Login from './components/Login/Login.vue'
+import Search from './components/Search/SearchBox.vue'
+import Create from './components/Create/CreateForm.vue'
 import NotFound from './components/NotFound.vue'
 
 
@@ -16,13 +18,17 @@ const router = new Router({
       component: Login,
       beforeEnter: (to, from, next) => {
         const token = localStorage.getItem('access_token');
-        if(token) next('/dashboard');
+        if(token) next('/');
         else next();
       }
     },
     {
-      path: '/dashboard',
-      component: Dashboard
+      path: '/create',
+      component: Create
+    },
+    {
+      path: '/search',
+      component: Search
     },
     {
       path: '*',

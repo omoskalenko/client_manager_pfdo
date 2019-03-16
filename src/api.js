@@ -99,6 +99,14 @@ class API {
     });
   }
 
+  createSertificate(data) {
+    return axios({
+      method: 'POST',
+      baseURL: `${this._ORIGIN}${this._ROUTES.CREATE_SERTIFICATE}`,
+      data
+    });
+  }
+
   activateSertificate(number) {
     return axios({
       method: 'PUT',
@@ -106,15 +114,24 @@ class API {
       data: {     
         "actual": 1
       }
-    }).then(res => console.log(res)
+    })
+  }
+
+  editSertificate({ number, data }) {
+    return axios({
+      method: 'PATCH',
+      baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
+      data
+    }).catch(error => console.log(error)
     );
   }
 
-  editSertificate(number) {
+  deleteSertificate(number) {
     return axios({
-      method: 'PATCH',
-      baseURL: `${this._ORIGIN}${this._ROUTES.EDITING_SERTIFICATE(number)}`,
-    });
+      method: 'DELETE',
+      baseURL: `${this._ROUTES.REQ_SERTIFICATE(number)}`
+    }).catch(error => console.error(error)
+    );
   }
 
 }

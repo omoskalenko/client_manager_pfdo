@@ -66,10 +66,11 @@ export default {
       pointOfEntry: "api-test.pfdo.ru",
       username: "candidate_api_manager",
       password: "Us3oUs3M5M",
-      errorStyle: "color: tomato"
+      errorStyle: "color: tomato",
     };
   },
   computed: {
+
     status() {
       return this.$store.getters.status;
     },

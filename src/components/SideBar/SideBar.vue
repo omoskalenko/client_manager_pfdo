@@ -4,12 +4,12 @@
       <div class="scroll ps" style="height: 327px;">
         <ul class="list-unstyled">
           <li class="active">
-            <a href="#layouts">
+            <a href="/create">
               <i class="fas fa-plus"></i> Создать сертификат
             </a>
           </li>
           <li>
-            <a href="#applications">
+            <a href="/search">
               <i class="fas fa-search"></i> Найти сертификат
             </a>
           </li>

@@ -6,12 +6,14 @@ const state = {
   status: null,
   errorDetail: null,
   refreshTimer: null,
+  isAutorized: false
 };
 
 const mutations = {
   AUTH_SUCCESS(state, payload) {
     state.status = 'success'
     state.session = payload;
+    state.isAutorized = true;
     state.refreshTimer = setInterval(() => {
       return API.refreshToken();
     }, state.interval * 60 * 1000);
@@ -30,6 +32,7 @@ const mutations = {
     state.expires_at = null,
       state.session = null,
       state.status = error ? "error" : null
+      state.isAutorized = false;
   }
 
 };
@@ -66,6 +69,7 @@ const actions = {
 const getters = {
   status: state => state.status,
   errorDetail: state => state.errorDetail,
+  isAutorized: state => state.isAutorized
 }
 
 const login = {
