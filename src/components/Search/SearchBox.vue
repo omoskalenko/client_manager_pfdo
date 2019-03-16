@@ -56,7 +56,7 @@ export default {
 
   data() {
     return {
-      number: "000001",
+      number: "000111",
       error: ""
     };
   },
@@ -122,7 +122,7 @@ export default {
   position: absolute;
   font-size: 25px;
   margin-top: 10px;
-  top: -9px;
+  top: -12px;
   left: 125px;
 }
 .result {

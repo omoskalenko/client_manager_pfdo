@@ -102,7 +102,7 @@ class API {
   activateSertificate(number) {
     return axios({
       method: 'PUT',
-      baseURL: `${this._ORIGIN}${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
+      baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
       data: {     
         "actual": 1
       }
