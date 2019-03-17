@@ -89,22 +89,27 @@
           <tr>
             <td align="left"><label for="name">Имя</label></td>
             <td><input type="text" name="name" :value="certificate.name"></td>
+            <span style="color: tomato">{{ fieldErrors.name }}</span>
           </tr>
            <tr>
             <td align="left"><label for="soname">Фамилия</label></td>
             <td><input type="text" name="soname" :value="certificate.soname"></td>
+            <span style="color: tomato">{{ fieldErrors.soname }}</span>
           </tr>
            <tr>
             <td align="left"><label for="phname">Отчество</label></td>
             <td><input type="text" name="phname" :value="certificate.phname"></td>
+            <span style="color: tomato">{{ fieldErrors.phname }}</span>
           </tr>
            <tr>
             <td align="left"><label for="birthday">Дата рождения</label></td>
             <td><input type="text" name="birthday" placeholder="ДД.ММ.ГГГ"></td>
+            <span style="color: tomato">{{ fieldErrors.birthday }}</span>
           </tr>
           <tr>
             <td align="left"><label for="email">E-mail</label></td>
             <td><input type="text" name="email" placeholder="example@example.com"></td>
+            <span style="color: tomato">{{ fieldErrors.email }}</span>
           </tr>
           
           </table>
@@ -124,7 +129,14 @@ export default {
   data() {
     return {
       editing: false,
-      message: null
+      message: null,
+      fieldErrors: {
+        name: '',
+        soname: '',
+        phname: '',
+        birthday: '',
+        email: '', 
+      }
     };
   },
 
@@ -178,7 +190,7 @@ export default {
         email: evt.target.email.value, 
       }
 
-      // validateForm(data);
+      // this.validateForm(data);
       // if (Object.keys(this.fieldErrors).length) return;
 
       evt.preventDefault();
@@ -207,22 +219,43 @@ export default {
       // ГГГГ - год, может приниматься значения с 1998 до текущего года
       // Так же проверяется возможность существования указанной даты, например, дата 31.02.2018 будет признана некорректной     (в феврале нет 31-го дня)
 
-      console.log(this.name);
-
-      const regExpName = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
-      const regExpSoname = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
-      const regExpPhname = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
-      const regExpEmail = /^[А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\.   [А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9А-яёЁ](?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?\.)+[a-zA-Z0-9А-яёЁ]   (?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?$/;
-      const regExpBirthday = /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/;
-      // if()
-
       const errors = {};
-      if (!fields.pointOfEntry && isPointOfEntry(pointOfEntry)) errors.pointOfEntry = "Необходимо указать точку входа";
-      if (!fields.username) errors.username = "Введите логин";
-      if (!fields.password) errors.password = "Введите пароль";
+
+      if (!fields.name && this.isValidName(fields.name)) errors.name = "Имя - до 60 символов";
+      if (!fields.soname && this.isValidSoname(fields.soname)) errors.soname = "Фамилия - до 60 символов";
+      if (!fields.phname && this.isValidPhname(fields.phname)) errors.phname = "Отчество - до 60 символов";
+      if (!fields.birthday && this.isValidBirthday(fields.birthday)) errors.birthday = "Введите пароль";
+      if (!fields.email && this.isValidEmail(fields.email)) errors.email = "Адрес электронной почты: ограничение в 255 символов";
+
 
       return errors;
-    }
+    },
+
+    isValidName(name) {
+      const regExpName = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
+      return regExpName.test(name);
+    },
+    
+    isValidSoname(soname) {
+      const regExpSoname = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
+      return regExpSoname.test(soname);
+    },
+
+    isValidPhname(phname) {
+      const regExpPhname = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
+      return regExpPhname.test(phname);
+    },
+
+    isValidEmail(email) {
+      const regExpEmail = /^[А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\.[А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9А-яёЁ](?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?\.)+[a-zA-Z0-9А-яёЁ](?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?$/;
+      return regExpEmail.test(email);
+    },
+
+    isValidBirthday(date) {
+      const regExpBirthday = /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/;
+      return regExpBirthday.test(date);
+    },
+
   }
 };
 </script>

@@ -79,7 +79,6 @@ export default {
         pointOfEntry: undefined,
         username: undefined,
         password: undefined,
-       
       },
     };
   },
@@ -115,7 +114,7 @@ export default {
 
     validateForm(fields) {
       const errors = {};
-      if (!fields.pointOfEntry && isPointOfEntry(pointOfEntry)) errors.pointOfEntry = "Необходимо указать точку входа";
+      if (!fields.pointOfEntry && isPointOfEntry(fields.pointOfEntry)) errors.pointOfEntry = "Необходимо указать точку входа";
       if (!fields.username) errors.username = "Введите логин";
       if (!fields.password) errors.password = "Введите пароль";
 
