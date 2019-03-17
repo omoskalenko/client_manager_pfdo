@@ -5,8 +5,8 @@
  
 # Пример просроченного access_token’а: a56c3787fd94d31cdbe8dc385314301d98a9b95b
 
-@access_token = b3e4f03f9412ba6e155fbd3eced2ac7a4236bba8
-@refresh_token = f6b9d5f990e7888432544d0e994600e3e8bbb533
+@access_token = 3913123dc757ff62dc936aa08072ed66c3cfed9c
+@refresh_token = fdbbc5082afb9af8f108429a0de2b4c9f8dbc8b2
 @na_access_token = db1e75eb7ffa3f09c6413247b2a04e7d70be658c
 # @access_token = {{na_access_token}}
 

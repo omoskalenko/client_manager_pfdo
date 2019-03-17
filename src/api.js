@@ -6,7 +6,7 @@ class API {
     this._ORIGIN = localStorage.getItem('point_of_entry');
     this._ROUTES = routes;
 
-    this.token = localStorage.getItem('access_token');
+    this._token = localStorage.getItem('access_token');
 
     this.refresh_token = localStorage.getItem('refresh_token');
 

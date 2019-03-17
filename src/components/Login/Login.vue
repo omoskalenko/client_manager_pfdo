@@ -88,7 +88,7 @@ export default {
           username: this.username,
           password: this.password
         })
-        .then(() => this.$router.push("/dashboard"));
+        .then(() => this.$router.push("/search"));
     }
   }
 };
@@ -98,7 +98,7 @@ export default {
 
 <style lang="scss" scoped>
 .login_form__wrapper {
-  margin: 50px auto;
+  margin: 0px auto;
   padding: 30px;
   display: block;
   // height: 350px;

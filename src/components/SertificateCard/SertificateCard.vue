@@ -124,6 +124,7 @@ export default {
   data() {
     return {
       editing: false,
+      message: null
     };
   },
 
@@ -134,8 +135,8 @@ export default {
       return this.$store.getters.sertificate;
     },
 
-    isActiveted(status) {
-      return !!this.sertificate.actual;
+    isActiveted() {
+      return this.sertificate.actual == 1;
     },
 
     style() {
@@ -148,7 +149,9 @@ export default {
 
   methods: {
     activate(number) {
-      this.$store.dispatch("activateSertificate", number).then(() => {
+      this.$store.dispatch("activateSertificate", number).then(res => {
+        console.log(res);
+        
         this.$store
           .dispatch("getSertificate", `${this.sertificate.number}`)
           .then(() => {
@@ -183,9 +186,9 @@ export default {
     },
 
     deleteSertificate(number) {
-     
       this.$store.dispatch("deleteSertificate", number ).then(() => {
          this.$store.commit('DELETE_SERTIFICATE')
+
       });
     },
 
@@ -218,6 +221,7 @@ export default {
 .sertificate_card {
   position: relative;
   display: inline-block;
+  text-align: center;
   width: 1000px;
   background-color: #fff;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);

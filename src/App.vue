@@ -1,7 +1,25 @@
 <template>
   <div id="app">
-    <NavBar v-if="isAutorized"/>
-    <SideBar v-if="isAutorized"/>
+    <NavBar v-if="shuldShowNavigation"/>
+    <div class="sidebar" style="opacity: 1;" v-if="shuldShowNavigation">
+    <div class="main-menu">
+      <div class="scroll ps" style="height: 327px;">
+        <ul class="list-unstyled">
+         
+          <li :class="this.$route.path === '/search' ? 'active' : ''">
+            <router-link to="/search">
+              <i class="fas fa-search"></i> Найти сертификат
+            </router-link>
+          </li>
+           <li :class="this.$route.path === '/create' ? 'active' : ''">
+            <router-link to="/create" >
+              <i class="fas fa-plus"></i> Создать сертификат
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
     <div class="row">
       <div class="workspace container">
         <router-view></router-view>
@@ -16,7 +34,6 @@ import axios from "axios";
 
 import Login from "./components/Login/Login.vue";
 import NavBar from "./components/NavBar/NavBar.vue";
-import SideBar from "./components/SideBar/SideBar.vue";
 import SearchBox from "./components/Search/SearchBox.vue";
 import Create from "./components/Create/CreateForm.vue";
 
@@ -24,14 +41,25 @@ export default {
   components: {
     Login,
     NavBar,
-    SideBar,
     SearchBox,
-    CreateForm
+    Create
+  },
+
+  created() {
+    if(localStorage.getItem('access_token')) {
+      this.$store.commit('AUTH_SUCCESS');
+    } 
   },
 
   computed: {
-    ...mapGetters(["isAutorized"])
-  }
+    ...mapGetters(["isAutorized"]),
+
+    shuldShowNavigation() {
+      return this.$route.path !== '/login'
+    },
+    
+  },
+
 };
 </script>
 
@@ -74,6 +102,9 @@ body.background main .container {
   text-align: center;
   color: #2c3e50;
   height: 100%;
+}
+.workspace {
+ margin: 150px auto;
 }
 button {
   color: #212121;
@@ -163,6 +194,73 @@ button {
 .check-button .custom-control {
   min-height: 1.1rem;
   margin-top: -7px;
+}
+.sidebar {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  padding-top: 120px;
+  z-index: 5;
+}
+.sidebar .main-menu {
+  width: 120px;
+  height: 100%;
+  background: white;
+  z-index: 3;
+  position: fixed;
+  padding-top: 2px;
+  left: 0;
+}
+.sidebar .main-menu.default-transition {
+  transition: transform 300ms;
+}
+.sidebar .main-menu ul li {
+  position: relative;
+}
+.sidebar .main-menu ul li span {
+  text-align: center;
+  padding: 0 10px;
+  line-height: 14px;
+}
+.sidebar .main-menu ul li a {
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  border-bottom: 1px solid #f3f3f3;
+  color: #212121;
+  transition: color 300ms;
+  transition: background 300ms;
+}
+.sidebar .main-menu ul li a:hover,
+.sidebar .main-menu ul li a:focus {
+  color: #145388;
+  text-decoration: none;
+  background: #f8f8f8;
+}
+.sidebar .main-menu ul li i {
+  font-size: 32px;
+  line-height: 42px;
+}
+.sidebar .main-menu ul li.active a {
+  color: #145388;
+}
+.sidebar .main-menu ul li.active:after {
+  content: " ";
+  background: #145388;
+  color: white;
+  border-radius: 10px;
+  position: absolute;
+  width: 6px;
+  height: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
 }
 </style>
 

@@ -1,8 +1,7 @@
 import API from '../../../api';
 
 const state = {
-  interval: 59,
-  session: null,
+  interval: 30,
   status: null,
   errorDetail: null,
   refreshTimer: null,
@@ -10,9 +9,8 @@ const state = {
 };
 
 const mutations = {
-  AUTH_SUCCESS(state, payload) {
+  AUTH_SUCCESS(state) {    
     state.status = 'success'
-    state.session = payload;
     state.isAutorized = true;
     state.refreshTimer = setInterval(() => {
       return API.refreshToken();
@@ -25,14 +23,14 @@ const mutations = {
 
   AUTH_ERROR(state, error) {
     state.status = 'error'
+    state.isAutorized = false;
     state.errorDetail = error
   },
 
   LOGOUT(state, error) {
-    state.expires_at = null,
-      state.session = null,
-      state.status = error ? "error" : null
-      state.isAutorized = false;
+    state.isAutorized = false;
+    state.status = error ? "error" : null
+      
   }
 
 };
@@ -67,6 +65,7 @@ const actions = {
 };
 
 const getters = {
+
   status: state => state.status,
   errorDetail: state => state.errorDetail,
   isAutorized: state => state.isAutorized

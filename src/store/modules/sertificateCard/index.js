@@ -28,8 +28,7 @@ const actions = {
   },
 
   deleteSertificate( _ , payload) {
-    API.deleteSertificate(payload).then(res => console.log(res)
-    );
+    API.deleteSertificate(payload)
   }
 
  

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="search_box">
     <div class="row">
       <div class="search">
         <i class="fas fa-search"></i>
