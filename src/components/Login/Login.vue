@@ -3,7 +3,7 @@
     <div class="row">
       <div class="login_form__wrapper">
         <div class="error_message" style="color: tomato">
-          <p v-if="status === 'error'">{{ error.message }}</p>
+          <p v-if="status === 'error'">{{ error }}</p>
         </div>
         <form>
           <div class="form-group">
@@ -16,6 +16,7 @@
               id="poit_of_entry"
               placeholder="api.example.com"
             >
+            <span style="color: tomato">{{ fieldErrors.pointOfEntry }}</span>
           </div>
           <div class="form-group">
             <label for="username">Имя пользователя</label>
@@ -27,6 +28,7 @@
               id="username"
               placeholder="Введите имя пользователя"
             >
+            <span style="color: tomato">{{ fieldErrors.username }}</span>
           </div>
 
           <div class="form-group">
@@ -39,6 +41,7 @@
               id="password"
               placeholder="Пароль"
             >
+            <span style="color: tomato">{{ fieldErrors.username }}</span>
           </div>
 
           <button @click="login" class="btn btn-primary">
@@ -72,9 +75,12 @@ export default {
       pointOfEntry: "",
       username: "",
       password: "",
-      error: {
-
-      }
+      fieldErrors: {
+        pointOfEntry: undefined,
+        username: undefined,
+        password: undefined,
+       
+      },
     };
   },
   computed: {
@@ -83,25 +89,42 @@ export default {
       return this.$store.getters.status;
     },
     error() {
-      return this.$store.getters.errorDetail;
+       const error = this.$store.getters.errorDetail;
+        if (error.message === "Cannot read property 'data' of undefined") return "Некоректная точка входа"  
     }
   },
 
   methods: {
     login(event) {
       event.preventDefault();
-      this.validate();
+      this.fieldErrors = this.validateForm({
+          pointOfEntry: this.pointOfEntry,
+          username: this.username,
+          password: this.password
+        });
+      if (Object.keys(this.fieldErrors).length) return;
+
       this.$store
         .dispatch("login", {
           pointOfEntry: this.pointOfEntry,
           username: this.username,
           password: this.password
         })
-        .then(() => this.$router.push("/search"));
+        .then(() => this.$router.push("/search"))
     },
 
-    validate() {
+    validateForm(fields) {
+      const errors = {};
+      if (!fields.pointOfEntry && isPointOfEntry(pointOfEntry)) errors.pointOfEntry = "Необходимо указать точку входа";
+      if (!fields.username) errors.username = "Введите логин";
+      if (!fields.password) errors.password = "Введите пароль";
 
+      return errors;
+    },
+
+    isPointOfEntry(pointOfEntry) {
+      const re = /(api)?\.[A-z]+\.[A-z]{2,}/;
+      return re.test(pointOfEntry)
     }
 
   }

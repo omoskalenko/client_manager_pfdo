@@ -178,6 +178,9 @@ export default {
         email: evt.target.email.value, 
       }
 
+      // validateForm(data);
+      // if (Object.keys(this.fieldErrors).length) return;
+
       evt.preventDefault();
       this.$store.dispatch("editCertificate", { number: this.certificate.number, data })
         .then(() => {
@@ -192,7 +195,7 @@ export default {
       });
     },
 
-    validate() {
+    validateForm(fields) {
       // Имя - до 60 символов, проверка по маске /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/
       // Фамилия - до 60 символов, проверка по маске /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/
       // Отчество - до 60 символов, проверка по маске /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/
@@ -212,6 +215,13 @@ export default {
       const regExpEmail = /^[А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\.   [А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9А-яёЁ](?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?\.)+[a-zA-Z0-9А-яёЁ]   (?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?$/;
       const regExpBirthday = /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/;
       // if()
+
+      const errors = {};
+      if (!fields.pointOfEntry && isPointOfEntry(pointOfEntry)) errors.pointOfEntry = "Необходимо указать точку входа";
+      if (!fields.username) errors.username = "Введите логин";
+      if (!fields.password) errors.password = "Введите пароль";
+
+      return errors;
     }
   }
 };

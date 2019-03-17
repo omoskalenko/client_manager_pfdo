@@ -11,7 +11,7 @@ const state = {
 const mutations = {
   AUTH_SUCCESS(state) {    
     state.status = 'success'
-    state.isAutorized = true;
+
     state.refreshTimer = setInterval(() => {
       return API.refreshToken();
     }, state.interval * 60 * 1000);
@@ -19,7 +19,6 @@ const mutations = {
 
   AUTH_ERROR(state, error) {
     state.status = 'error'
-    state.isAutorized = false;
     state.errorDetail = error
   },
   
@@ -28,7 +27,6 @@ const mutations = {
   },
 
   LOGOUT(state, error) {
-    state.isAutorized = false;
     state.status = error ? "error" : null
       
   }
@@ -58,7 +56,7 @@ const actions = {
     return new Promise(resolve => {
       localStorage.clear();
       commit('LOGOUT', payload);
-      commit('DELETE_SERTIFICATE', 'success')
+      commit('DELETE_CERTIFICATE', 'success')
       resolve();
     })
   },
