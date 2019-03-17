@@ -19,16 +19,16 @@ const mutations = {
 
 const actions = {
 
-  activateSertificate( _ , number) {
-    API.activateSertificate(number);
+  activateCertificate( _ , number) {
+    API.activateCertificate(number);
   },
 
-  editSertificate( _ , payload) {
-    API.editSertificate(payload)
+  editCertificate( _ , payload) {
+    API.editCertificate(payload)
   },
 
-  deleteSertificate( _ , payload) {
-    API.deleteSertificate(payload)
+  deleteCertificate( _ , payload) {
+    API.deleteCertificate(payload)
   }
 
  

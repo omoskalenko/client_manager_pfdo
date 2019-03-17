@@ -13,9 +13,9 @@ const mutations = {
 
 const actions = {
 
-  createSertificate({ commit }, payload) {
+  createCertificate({ commit }, payload) {
     commit('SET_STATUS', 'loading');
-    return API.createSertificate(payload)
+    return API.createCertificate(payload)
       .then(res => {
       
        if (!res.data.data.actual) {

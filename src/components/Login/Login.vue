@@ -2,13 +2,14 @@
   <div class="container">
     <div class="row">
       <div class="login_form__wrapper">
-        <div class="error_message" :style="errorStyle">
+        <div class="error_message" style="color: tomato">
           <p v-if="status === 'error'">{{ error.message }}</p>
         </div>
         <form>
           <div class="form-group">
             <label for="poit_of_entry">Точка входа</label>
             <input
+              required 
               v-model="pointOfEntry"
               type="text"
               class="form-control"
@@ -19,6 +20,7 @@
           <div class="form-group">
             <label for="username">Имя пользователя</label>
             <input
+              required 
               v-model="username"
               type="text"
               class="form-control"
@@ -30,6 +32,7 @@
           <div class="form-group">
             <label for="password">Пароль</label>
             <input
+              required 
               v-model="password"
               type="password"
               class="form-control"
@@ -63,10 +66,15 @@ export default {
 
   data() {
     return {
-      pointOfEntry: "api-test.pfdo.ru",
-      username: "candidate_api_manager",
-      password: "Us3oUs3M5M",
-      errorStyle: "color: tomato",
+      // pointOfEntry: "api-test.pfdo.ru",
+      // username: "candidate_api_manager",
+      // password: "Us3oUs3M5M",
+      pointOfEntry: "",
+      username: "",
+      password: "",
+      error: {
+
+      }
     };
   },
   computed: {
@@ -82,6 +90,7 @@ export default {
   methods: {
     login(event) {
       event.preventDefault();
+      this.validate();
       this.$store
         .dispatch("login", {
           pointOfEntry: this.pointOfEntry,
@@ -89,7 +98,12 @@ export default {
           password: this.password
         })
         .then(() => this.$router.push("/search"));
+    },
+
+    validate() {
+
     }
+
   }
 };
 </script>

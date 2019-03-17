@@ -4,8 +4,8 @@ import Vuex from 'vuex';
 
 import auth from './modules/auth';
 import searchBox from './modules/searchBox';
-import sertificateCard from './modules/sertificateCard';
-import createSertificate from './modules/createSertificate';
+import certificateCard from './modules/certificateCard';
+import createCertificate from './modules/createCertificate';
 
 Vue.use(Vuex);
 
@@ -13,7 +13,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     searchBox,
-    sertificateCard,
-    createSertificate
+    certificateCard,
+    createCertificate
   }
 })

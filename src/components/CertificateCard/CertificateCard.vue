@@ -1,9 +1,9 @@
 <template>
-  <div class="sertificate_card">
+  <div class="certificate_card">
     <div class="indicator" :style="style"></div>
 
     <div class="view_data" v-if="!editing">
-      <h2>Сертификат №{{ sertificate.number }}</h2>
+      <h2>Сертификат №{{ certificate.number }}</h2>
       <div class="row">
         <div class="data">
           <div class="user_data">
@@ -12,36 +12,36 @@
                 <td width="150">
                   <strong>Имя:</strong>
                 </td>
-                <td>{{ sertificate.name }}</td>
+                <td>{{ certificate.name }}</td>
               </tr>
               <tr align="left">
                 <td>
                   <strong>Фамилия:</strong>
                 </td>
-                <td>{{ sertificate.soname }}</td>
+                <td>{{ certificate.soname }}</td>
               </tr>
               <tr align="left">
                 <td>
                   <strong>Отчество:</strong>
                 </td>
-                <td>{{ sertificate.phname }}</td>
+                <td>{{ certificate.phname }}</td>
               </tr>
             </table>
           </div>
 
-          <div class="sertificate_data">
+          <div class="certificate_data">
             <table>
               <tr align="left">
                 <td width="150">
                   <strong>Статус:</strong>
                 </td>
-                <td>{{ sertificate.actual ? 'Сертификат активирован' : 'Сертификат не активирован'}}</td>
+                <td>{{ certificate.actual ? 'Сертификат активирован' : 'Сертификат не активирован'}}</td>
               </tr>
               <tr align="left">
                 <td>
                   <strong>Группа:</strong>
                 </td>
-                <td>{{ sertificate.cert_group_name }}</td>
+                <td>{{ certificate.cert_group_name }}</td>
               </tr>
               <tr align="left">
                 <td>
@@ -67,7 +67,7 @@
             type="button"
             class="btn btn-outline-dark"
             :disabled="isActiveted"
-            @click="activate(sertificate.number)"
+            @click="activate(certificate.number)"
           >
             Активировать
           </button>
@@ -76,7 +76,7 @@
             type="button"
             class="btn btn-outline-dark"
             v-show="!isActiveted"
-            @click="deleteSertificate(sertificate.number)"
+            @click="deleteCertificate(certificate.number)"
           >Удалить</button>
         </div>
       </div>
@@ -88,15 +88,15 @@
           <table>
           <tr>
             <td align="left"><label for="name">Имя</label></td>
-            <td><input type="text" name="name" :value="sertificate.name"></td>
+            <td><input type="text" name="name" :value="certificate.name"></td>
           </tr>
            <tr>
             <td align="left"><label for="soname">Фамилия</label></td>
-            <td><input type="text" name="soname" :value="sertificate.soname"></td>
+            <td><input type="text" name="soname" :value="certificate.soname"></td>
           </tr>
            <tr>
             <td align="left"><label for="phname">Отчество</label></td>
-            <td><input type="text" name="phname" :value="sertificate.phname"></td>
+            <td><input type="text" name="phname" :value="certificate.phname"></td>
           </tr>
            <tr>
             <td align="left"><label for="birthday">Дата рождения</label></td>
@@ -119,7 +119,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "SertificateCard",
+  name: "CertificateCard",
 
   data() {
     return {
@@ -131,12 +131,12 @@ export default {
   computed: {
     // ...mapGetters(["name", "soname", "phname", "birthday", "email"]),
 
-    sertificate() {
-      return this.$store.getters.sertificate;
+    certificate() {
+      return this.$store.getters.certificate;
     },
 
     isActiveted() {
-      return this.sertificate.actual == 1;
+      return this.certificate.actual == 1;
     },
 
     style() {
@@ -149,11 +149,11 @@ export default {
 
   methods: {
     activate(number) {
-      this.$store.dispatch("activateSertificate", number).then(res => {
+      this.$store.dispatch("activateCertificate", number).then(res => {
         console.log(res);
         
         this.$store
-          .dispatch("getSertificate", `${this.sertificate.number}`)
+          .dispatch("getCertificate", `${this.certificate.number}`)
           .then(() => {
             if (!this.isActiveted) {
               this.$store.dispatch("setLocalActivateStatus");
@@ -179,14 +179,14 @@ export default {
       }
 
       evt.preventDefault();
-      this.$store.dispatch("editSertificate", { number: this.sertificate.number, data })
+      this.$store.dispatch("editCertificate", { number: this.certificate.number, data })
         .then(() => {
-          this.$store.dispatch("getSertificate", `${this.sertificate.number}`);
+          this.$store.dispatch("getCertificate", `${this.certificate.number}`);
         });
     },
 
-    deleteSertificate(number) {
-      this.$store.dispatch("deleteSertificate", number ).then(() => {
+    deleteCertificate(number) {
+      this.$store.dispatch("deleteCertificate", number ).then(() => {
          this.$store.commit('DELETE_SERTIFICATE')
 
       });
@@ -218,7 +218,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sertificate_card {
+.certificate_card {
   position: relative;
   display: inline-block;
   text-align: center;
@@ -228,7 +228,7 @@ export default {
   padding: 30px;
   font-size: 16px;
 }
-.sertificate_card h2 {
+.certificate_card h2 {
   margin-bottom: 20px;
 }
 .data,
@@ -243,7 +243,7 @@ label {
   display: inline-block;
   margin-right: 100px;
 }
-.sertificate_data {
+.certificate_data {
   display: inline-block;
 }
 .button_group {

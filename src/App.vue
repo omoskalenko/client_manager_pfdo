@@ -52,7 +52,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["isAutorized"]),
 
     shuldShowNavigation() {
       return this.$route.path !== '/login'

@@ -2,29 +2,29 @@
 import API from '../../../api';
 
 const state = {
-  sertificate: null,
+  certificate: null,
 };
 
 const mutations = {
   UPDATE_SRTIFICATE(state, payload) {
-    state.sertificate = payload;
+    state.certificate = payload;
   },
   
   ACTIVATE(state) {
-    state.sertificate.actual = 1;
+    state.certificate.actual = 1;
   },
   
-  DELETE_SERTIFICATE(state) {
-    state.sertificate = null;
+  DELETE_CERTIFICATE(state) {
+    state.certificate = null;
   }
 
 };
 
 const actions = {
 
-  getSertificate({ commit }, payload) {
+  getCertificate({ commit }, payload) {
     commit('SET_STATUS', 'loading');
-    return API.getSertificate(payload)
+    return API.getCertificate(payload)
       .then(res => {
         commit('SET_STATUS', 'success');
         commit('UPDATE_SRTIFICATE', res.data.data);
@@ -48,7 +48,7 @@ const actions = {
 };
 
 const getters = {
-  sertificate: state => state.sertificate
+  certificate: state => state.certificate
 }
 
 const dashboard = {

@@ -17,14 +17,14 @@ const mutations = {
     }, state.interval * 60 * 1000);
   },
 
-  SET_STATUS(state, payload) {
-    state.status = payload;
-  },
-
   AUTH_ERROR(state, error) {
     state.status = 'error'
     state.isAutorized = false;
     state.errorDetail = error
+  },
+  
+  SET_STATUS(state, payload) {
+    state.status = payload;
   },
 
   LOGOUT(state, error) {
@@ -69,7 +69,6 @@ const getters = {
 
   status: state => state.status,
   errorDetail: state => state.errorDetail,
-  isAutorized: state => state.isAutorized
 }
 
 const login = {

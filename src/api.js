@@ -8,7 +8,7 @@ class API {
 
     this._token = localStorage.getItem('access_token');
 
-    this.refresh_token = localStorage.getItem('refresh_token');
+    this._refresh_token = localStorage.getItem('refresh_token');
 
     this._initAxios();
   }
@@ -43,13 +43,13 @@ class API {
       baseURL: `${this._ORIGIN}${this._ROUTES.AUTH}`,
       data: {
         "grant_type": 'refresh_token',
-        "refresh_token": this.refresh_token,
+        "refresh_token": this._refresh_token,
         "client_id": "candidate_app",
         "client_secret": "vuejsispower"
       }
     }).then(res => {
       this.token = res.data.access_token;
-      this.refresh_token = res.data.refresh_token;
+      this._refresh_token = res.data.refresh_token;
       for (let key in res.data) {
         localStorage.setItem(key, res.data[key]);
       }
@@ -79,7 +79,7 @@ class API {
         }
       }).then(res => {
         this.token = res.data.access_token;
-        this.refresh_token = res.data.refresh_token;
+        this._refresh_token = res.data.refresh_token;
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
         for (let key in res.data) {
           localStorage.setItem(key, res.data[key]);
@@ -92,14 +92,14 @@ class API {
     }
   }
 
-  getSertificate(number) {
+  getCertificate(number) {
     return axios({
       method: 'GET',
       baseURL: `${this._ORIGIN}${this._ROUTES.REQ_SERTIFICATE(number)}`,
     });
   }
 
-  createSertificate(data) {
+  createCertificate(data) {
     return axios({
       method: 'POST',
       baseURL: `${this._ORIGIN}${this._ROUTES.CREATE_SERTIFICATE}`,
@@ -107,7 +107,9 @@ class API {
     });
   }
 
-  activateSertificate(number) {
+  //Запросы через прокси proxy api-test.pfdo.ru
+
+  activateCertificate(number) {
     return axios({
       method: 'PUT',
       baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
@@ -117,7 +119,7 @@ class API {
     })
   }
 
-  editSertificate({ number, data }) {
+  editCertificate({ number, data }) {
     return axios({
       method: 'PATCH',
       baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
@@ -126,7 +128,7 @@ class API {
     );
   }
 
-  deleteSertificate(number) {
+  deleteCertificate(number) {
     return axios({
       method: 'DELETE',
       baseURL: `${this._ROUTES.REQ_SERTIFICATE(number)}`
@@ -136,6 +138,7 @@ class API {
 
 }
 
+//Маршруты
 const PFDOapiRoutes = {
   AUTH: '/oauth2/token',
   CREATE_SERTIFICATE: '/v2/certificates',

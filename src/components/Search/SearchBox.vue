@@ -33,8 +33,8 @@
         </div>
         <p class="error" v-if="error">{{error}}</p>
 
-        <div v-if="sertificate && !error">
-          <SertificateCard  />  
+        <div v-if="certificate && !error">
+          <CertificateCard  />  
         </div>
 
 
@@ -46,26 +46,26 @@
 <script>
 import { mapGetters } from "vuex";
 
-import SertificateCard from '../SertificateCard/SertificateCard.vue'
+import CertificateCard from '../CertificateCard/CertificateCard.vue'
 
 export default {
   name: "SearchBox",
 
   components: {
-    SertificateCard
+    CertificateCard
   },
 
   data() {
     return {
       number: "000111",
       error: "",
-      // sertificate: null
+      // certificate: null
 
     };
   },
 
   computed: {
-  ...mapGetters([ "sertificate", "status" ])
+  ...mapGetters([ "certificate", "status" ])
   },
 
   methods: {
@@ -75,12 +75,12 @@ export default {
       if (!/[0-9]{6}/.test(this.number)) {
         return this.error = "Номер не должен быть короче 6 символов и должен состоять только из цифр"
       } else {
-        this.$store.dispatch("getSertificate", `9905${this.number}`).then(res => {
+        this.$store.dispatch("getCertificate", `9905${this.number}`).then(res => {
           if(res.result_message === "Запись не найдена") {
             this.error = "Запись не найдена"
             return;
           }
-          // this.sertificate = res.data;
+          // this.certificate = res.data;
 
         })
       }

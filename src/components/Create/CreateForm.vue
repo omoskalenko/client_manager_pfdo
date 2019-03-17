@@ -1,8 +1,8 @@
 <template>
 
-<div class="create_sertificate">
+<div class="create_certificate">
   <h2 v-if="create">Сертификат №{{setNumber}} создан</h2>
-  <div class="sertificate_card" v-show="!create">
+  <div class="certificate_card" v-show="!create">
     <h2>Новый сертификат</h2>
     <form @submit="save" class="ui form">
       <div class="field">
@@ -74,12 +74,12 @@
 </template>
 
 <script>
-import SertificateCard from '../SertificateCard/SertificateCard.vue'
+import CertificateCard from '../CertificateCard/CertificateCard.vue'
 
 export default {
   name: "CreateForm",
   components: {
-    SertificateCard
+    CertificateCard
   },
 
   data() {
@@ -121,7 +121,7 @@ export default {
       };
 
       this.$store
-        .dispatch("createSertificate", data)
+        .dispatch("createCertificate", data)
         .then(res => {
           this.toogleState();
           this.setNumber = res.data.number
@@ -132,6 +132,7 @@ export default {
           this.error_message = error;
         });
     },
+
 
     resetForm() {
       this.toogleState();
@@ -153,7 +154,7 @@ export default {
 </script>
 
 <style>
-.sertificate_card {
+.certificate_card {
   position: relative;
   display: inline-block;
   text-align: center;
