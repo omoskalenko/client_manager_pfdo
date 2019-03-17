@@ -58,6 +58,7 @@ const actions = {
     return new Promise(resolve => {
       localStorage.clear();
       commit('LOGOUT', payload);
+      commit('DELETE_SERTIFICATE', 'success')
       resolve();
     })
   },

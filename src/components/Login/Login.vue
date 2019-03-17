@@ -9,7 +9,7 @@
           <div class="form-group">
             <label for="poit_of_entry">Точка входа</label>
             <input
-              :value="pointOfEntry"
+              v-model="pointOfEntry"
               type="text"
               class="form-control"
               id="poit_of_entry"
@@ -19,7 +19,7 @@
           <div class="form-group">
             <label for="username">Имя пользователя</label>
             <input
-              :value="username"
+              v-model="username"
               type="text"
               class="form-control"
               id="username"
@@ -30,7 +30,7 @@
           <div class="form-group">
             <label for="password">Пароль</label>
             <input
-              :value="password"
+              v-model="password"
               type="password"
               class="form-control"
               id="password"

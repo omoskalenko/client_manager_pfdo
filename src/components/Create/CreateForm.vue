@@ -123,18 +123,30 @@ export default {
       this.$store
         .dispatch("createSertificate", data)
         .then(res => {
-          this.create = true;
+          this.toogleState();
           this.setNumber = res.data.number
-          setInterval(() => {
-            this.create = false;
-            this.error_message = '';
+          setTimeout(() => {
+            this.resetForm();
           }, 2000)
-          
         }).catch(error => {
           this.error_message = error;
-          
         });
-    }
+    },
+
+    resetForm() {
+      this.toogleState();
+      this.name = '',
+      this.soname = '',
+      this.phname = '',
+      this.birthday = '',
+      this.email = '',
+      this.error_message = '';
+    },
+
+    toogleState() {
+      this.create = !this.create;
+    },
+
 
   }
 };

@@ -9,6 +9,7 @@ const mutations = {
   UPDATE_SRTIFICATE(state, payload) {
     state.sertificate = payload;
   },
+  
   ACTIVATE(state) {
     state.sertificate.actual = 1;
   },
