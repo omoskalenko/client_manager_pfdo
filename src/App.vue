@@ -44,15 +44,6 @@ export default {
     SearchBox,
     Create
   },
-<<<<<<< HEAD
-  // computed: {
-  //   shuldShowNavigation() {
-  //     return this.$route.path !== '/login'
-  //   }
-  // },
-  
-}
-=======
 
   created() {
     if(localStorage.getItem('access_token')) {
@@ -69,7 +60,6 @@ export default {
   },
 
 };
->>>>>>> api
 </script>
 
 
