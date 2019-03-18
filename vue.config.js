@@ -7,5 +7,8 @@ module.exports = {
     // errorOverlay: true,
     // notifyOnErrors: true,
     // poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/client_manager_pfdo/'
+    : '/'
 }
