@@ -54,7 +54,7 @@ export default {
 <style lang="scss">
 .navbar {
   background: white;
-  height: 120px;
+  height: 100px;
   padding: 1.5rem 0 1.5rem 0;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
 }

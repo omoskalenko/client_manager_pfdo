@@ -1,4 +1,7 @@
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+  ? '/client_manager_pfdo/'
+  : '/',
   devServer: {
     proxy: 'https://api-test.pfdo.ru',
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -8,7 +11,5 @@ module.exports = {
     // notifyOnErrors: true,
     // poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
   },
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/client_manager_pfdo/'
-    : '/'
+
 }

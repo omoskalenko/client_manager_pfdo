@@ -142,6 +142,7 @@ export default {
           this.setNumber = res.data.number;
           setTimeout(() => {
             this.resetForm();
+            this.$router.push("/");
           }, 2000);
         })
         .catch(error => {
@@ -174,7 +175,6 @@ export default {
       // ММ - номер месяца, может принимать значения 1-12
       // ГГГГ - год, может приниматься значения с 1998 до текущего года
       // Так же проверяется возможность существования указанной даты, например, дата 31.02.2018 будет признана некорректной     (в феврале нет 31-го дня)
-      console.log(fields);
       const errors = {};
 
       if (!this.isValidName(fields.name))
@@ -245,7 +245,8 @@ export default {
 };
 </script>
 
-<style>
+
+<style lang="scss">
 .certificate_card {
   position: relative;
   display: inline-block;
@@ -255,6 +256,12 @@ export default {
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
   padding: 20px 80px 20px 80px;
   font-size: 16px;
+}
+input {
+  border-style: none;
+  border-bottom: 1px solid #999;
+  min-width: 300px;
+  // border-radius: 20px;
 }
 .field {
   display: block;

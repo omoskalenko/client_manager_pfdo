@@ -3,13 +3,12 @@
     <div class="row">
       <div class="search">
         <i class="fas fa-search"></i>
-        <div class="start">9905</div>
         <input 
           type="text" 
           id="search" 
-          maxlength="6" 
-          pattern="[0-9]{6}"
-          placeholder="000000" 
+          maxlength="10" 
+          pattern="[0-9]{10}"
+          placeholder="9905000000" 
           v-model="number"
           @keyup.enter="seach()"
           >
@@ -31,9 +30,9 @@
                 <span class="sr-only">Loading...</span>
               </div>
         </div>
-        <p class="error" v-if="error">{{error}}</p>
+        <p class="message" v-show="message">{{ message }}</p>
 
-        <div v-if="certificate && !error">
+        <div v-if="certificate && !message">
           <CertificateCard  />  
         </div>
 
@@ -57,8 +56,8 @@ export default {
 
   data() {
     return {
-      number: "000111",
-      error: "",
+      number: "",
+      message: "",
       // certificate: null
 
     };
@@ -70,14 +69,14 @@ export default {
 
   methods: {
     seach() {
-      this.error = "";
+      this.message = "";
       if(!this.number) return false;
-      if (!/[0-9]{6}/.test(this.number)) {
-        return this.error = "Номер не должен быть короче 6 символов и должен состоять только из цифр"
+      if (!/[0-9]{10}/.test(this.number)) {
+        return this.message = "Номер не должен быть короче 10 символов и должен состоять только из цифр"
       } else {
-        this.$store.dispatch("getCertificate", `9905${this.number}`).then(res => {
+        this.$store.dispatch("getCertificate", this.number).then(res => {
           if(res.result_message === "Запись не найдена") {
-            this.error = "Запись не найдена"
+            this.message = "Запись не найдена"
             return;
           }
           // this.certificate = res.data;
@@ -106,7 +105,8 @@ export default {
 .search input {
   display: inline-block;
   outline: none;
-  padding-left: 180px;
+  text-align: center;
+  // padding-left: 180px;
   border-style: none;
   min-width: 230px;
   width: 400px;
@@ -135,7 +135,7 @@ export default {
   
   text-align: center;
 }
-.result p {
+.result .message {
   text-align: center;
   font-size: 25px;
   color: tomato;

@@ -1,7 +1,7 @@
 <template>
   <div class="certificate_card">
     <div class="indicator" :style="style"></div>
-
+    
     <div class="view_data" v-if="!editing">
       <h2>Сертификат №{{ certificate.number }}</h2>
       <div class="row">
@@ -129,7 +129,6 @@ export default {
   data() {
     return {
       editing: false,
-      message: null,
       fieldErrors: {
         name: '',
         soname: '',
@@ -161,14 +160,12 @@ export default {
 
   methods: {
     activate(number) {
-      this.$store.dispatch("activateCertificate", number).then(res => {
-        console.log(res);
-        
+      this.$store.dispatch("activateCertificate", number).then(res => {        
         this.$store
           .dispatch("getCertificate", `${this.certificate.number}`)
           .then(() => {
             if (!this.isActiveted) {
-              this.$store.dispatch("setLocalActivateStatus");
+              this.$store.commit("UPDATE_CERTIFICATE", { actual: 1 });
             }
           });
       });
@@ -179,63 +176,60 @@ export default {
     },
 
     save(evt) {
-      this.editing = false;
-      console.log(evt.target.name.value);
+      evt.preventDefault();
 
-      let data ={
+      let data = {
         name: evt.target.name.value,
         soname: evt.target.soname.value,
         phname: evt.target.phname.value,
         birthday: evt.target.birthday.value,
-        email: evt.target.email.value, 
+        email: evt.target.email.value,  
       }
 
-      // this.validateForm(data);
-      // if (Object.keys(this.fieldErrors).length) return;
+      this.fieldErrors = this.validateForm(data);
+      if (Object.keys(this.fieldErrors).length) return;
 
-      evt.preventDefault();
+    
       this.$store.dispatch("editCertificate", { number: this.certificate.number, data })
-        .then(() => {
-          this.$store.dispatch("getCertificate", `${this.certificate.number}`);
+        .then(() => {         
+          this.$store.commit("UPDATE_CERTIFICATE", data);
+          this.editing = false;
         });
     },
 
     deleteCertificate(number) {
       this.$store.dispatch("deleteCertificate", number ).then(() => {
-         this.$store.commit('DELETE_SERTIFICATE')
+         this.$store.commit('DELETE_CERTIFICATE');
 
       });
     },
 
     validateForm(fields) {
-      // Имя - до 60 символов, проверка по маске /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/
-      // Фамилия - до 60 символов, проверка по маске /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/
-      // Отчество - до 60 символов, проверка по маске /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/
-      // Адрес электронной почты: ограничение в 255 символов, проверка по маске /^[А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\.   [А-яёЁa-zA-Z0-9!#$%&'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9А-яёЁ](?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?\.)+[a-zA-Z0-9А-яёЁ]   (?:[a-zA-Z0-9-А-яёЁ]*[a-zA-Z0-9А-яёЁ])?$/
-      // Дата рождения:
-      // Соответствие формату "ДД.ММ.ГГГГ",
-      // ДД - числа месяца, может принимать значения 1-31
-      // ММ - номер месяца, может принимать значения 1-12
-      // ГГГГ - год, может приниматься значения с 1998 до текущего года
-      // Так же проверяется возможность существования указанной даты, например, дата 31.02.2018 будет признана некорректной     (в феврале нет 31-го дня)
-
       const errors = {};
 
-      if (!fields.name && this.isValidName(fields.name)) errors.name = "Имя - до 60 символов";
-      if (!fields.soname && this.isValidSoname(fields.soname)) errors.soname = "Фамилия - до 60 символов";
-      if (!fields.phname && this.isValidPhname(fields.phname)) errors.phname = "Отчество - до 60 символов";
-      if (!fields.birthday && this.isValidBirthday(fields.birthday)) errors.birthday = "Введите пароль";
-      if (!fields.email && this.isValidEmail(fields.email)) errors.email = "Адрес электронной почты: ограничение в 255 символов";
-
+      if (!this.isValidName(fields.name))
+        errors.name =
+          "Имя должно состоятьиз букв русского алфавита и не превышать 60 символов";
+      if (!this.isValidSoname(fields.soname))
+        errors.soname =
+          "Фамилия должна состоятьиз букв русского алфавита и не превышать 60 символов";
+      if (!this.isValidPhname(fields.phname))
+        errors.phname =
+          "Отчество должно состоятьиз букв русского алфавита и не превышать 60 символов";
+      if (!this.isValidBirthday(fields.birthday))
+        errors.birthday =
+          "Проверьте корректность введенной даты. Дата рождения должна быть в формате ДД.ММ.ГГГГ, год рождения от 1998";
+      if (!this.isValidEmail(fields.email))
+        errors.email = "Обязательное поле. Адрес электронной почты: ограничение в 255 символов";
 
       return errors;
     },
 
     isValidName(name) {
-      const regExpName = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
+      const regExpName = /^[а-яА-ЯёЁ]+([-]{1}[а-яА-ЯёЁ]+){0,3}$/;
       return regExpName.test(name);
     },
-    
+
     isValidSoname(soname) {
       const regExpSoname = /^[а-яА-ЯёЁ]+([ -]{1}[а-яА-ЯёЁ]+){0,3}$/;
       return regExpSoname.test(soname);
@@ -253,8 +247,30 @@ export default {
 
     isValidBirthday(date) {
       const regExpBirthday = /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/;
-      return regExpBirthday.test(date);
-    },
+      //проверка существования даты 
+      function validDate(date) {
+        var d_arr = date.split(".");
+        var d = new Date(d_arr[2] + "/" + d_arr[1] + "/" + d_arr[0] + ""); // дата в 
+        if (
+          d_arr[2] != d.getFullYear() ||
+          d_arr[1] != d.getMonth() + 1 ||
+          d_arr[0] != d.getDate()
+        ) {
+          return false; // неккоректная дата
+        }
+        return true;
+      }
+
+      return (
+        regExpBirthday.test(date) &&
+        date.match(regExpBirthday)[3] >= 1998 &&
+        date.match(regExpBirthday)[1] >= 1 &&
+        date.match(regExpBirthday)[1] <= 31 &&
+        date.match(regExpBirthday)[2] >= 1 &&
+        date.match(regExpBirthday)[2] <= 12
+        && validDate(date)
+      );
+    }
 
   }
 };

@@ -2,16 +2,18 @@
 import API from '../../../api';
 
 const state = {
-  certificate: null,
+  certificate:  null,
 };
 
 const mutations = {
-  UPDATE_SRTIFICATE(state, payload) {
-    state.certificate = payload;
+  SAVE_CERTIFICATE(state, payload) {
+    state.certificate = payload;  
   },
-  
-  ACTIVATE(state) {
-    state.certificate.actual = 1;
+
+  UPDATE_CERTIFICATE(state, payload) {
+    for (let key in payload) {
+      state.certificate[key] = payload[key];
+    }
   },
   
   DELETE_CERTIFICATE(state) {
@@ -27,7 +29,7 @@ const actions = {
     return API.getCertificate(payload)
       .then(res => {
         commit('SET_STATUS', 'success');
-        commit('UPDATE_SRTIFICATE', res.data.data);
+        commit('SAVE_CERTIFICATE', {...res.data.data });
         return new Promise((resolve) => {
           resolve(res.data);
         })
@@ -40,11 +42,6 @@ const actions = {
         })
       });
   },
-
-  setLocalActivateStatus({ commit }) {
-    commit('ACTIVATE');
-  }
-
 };
 
 const getters = {

@@ -25,7 +25,7 @@ const actions = {
        }    
         commit('SAVE_NUMBER', res.data.data.number);   
         commit('SET_STATUS', 'success');
-        commit('UPDATE_SRTIFICATE', res.data.data);
+        commit('SAVE_CERTIFICATE', res.data.data);
         return new Promise((resolve) => {
           resolve(res.data);
         })

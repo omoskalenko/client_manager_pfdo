@@ -6,8 +6,8 @@
       <div class="scroll ps" style="height: 327px;">
         <ul class="list-unstyled">
          
-          <li :class="this.$route.path === '/search' ? 'active' : ''">
-            <router-link to="/search">
+          <li :class="this.$route.path === '/' ? 'active' : ''">
+            <router-link to="/">
               <i class="fas fa-search"></i> Найти сертификат
             </router-link>
           </li>
@@ -199,7 +199,7 @@ button {
   position: fixed;
   top: 0;
   bottom: 0;
-  padding-top: 120px;
+  padding-top: 100px;
   z-index: 5;
 }
 .sidebar .main-menu {

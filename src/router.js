@@ -17,21 +17,21 @@ const router = new Router({
       component: Login,
       beforeEnter: (to, from, next) => {
         const token = localStorage.getItem('access_token');
-        if(token) next('/search');
+        if(token) next('/');
         else next();
       }
     },
     {
       path: '/',
-      redirect: '/login'
+      component: Search
     },
+    // {
+    //   path: '/',
+    //   redirect: '/login'
+    // },
     {
       path: '/create',
       component: Create
-    },
-    {
-      path: '/search',
-      component: Search
     },
     {
       path: '*',
