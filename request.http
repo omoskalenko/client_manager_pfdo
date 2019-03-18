@@ -5,8 +5,8 @@
  
 # Пример просроченного access_token’а: a56c3787fd94d31cdbe8dc385314301d98a9b95b
 
-@access_token = 36daa1a42c21220cc34755c258b1f32e41b40218
-@refresh_token = 9a9bf176f9d9fc3931cd10395f7ac759ca4220e8
+@access_token = 3913123dc757ff62dc936aa08072ed66c3cfed9c
+@refresh_token = fdbbc5082afb9af8f108429a0de2b4c9f8dbc8b2
 @na_access_token = db1e75eb7ffa3f09c6413247b2a04e7d70be658c
 # @access_token = {{na_access_token}}
 
@@ -30,7 +30,7 @@ Content-Type: application/json
  
 {
     "grant_type": "refresh_token",
-    "refresh_token": "9a9bf176f9d9fc3931cd10395f7ac759ca4220e8",
+    "refresh_token": "a05c0b315ebcb13b54f5284b31fdaeb2621e3265",
     "client_id": "candidate_app",
     "client_secret": "vuejsispower"
 }
@@ -42,7 +42,7 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
  
 {  
-    "number": "9905000110",  
+    "number": "9905000111",  
     "name": "Олег",  
     "soname": "Москаленко",  
     "phname": "Владимирович",  
@@ -59,12 +59,12 @@ Authorization: Bearer {{access_token}}
 # Активация сертификата "actual": 1 
 # Деактивация "actual": 2
 ###
-PUT https://api-test.pfdo.ru/v2/certificates/9905000110/actual HTTP/1.1
+PUT https://api-test.pfdo.ru/v2/certificates/9905000111/actual HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
  
 {     
-    "actual": 1
+    "actual": 0
 }
 
 # Редактирование сертификата
@@ -74,7 +74,7 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {    
-    "birthday":"20.05.2000"
+    "name":"О"
 }
 
 # Удаление сертификата
