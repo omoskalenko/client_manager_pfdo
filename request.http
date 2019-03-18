@@ -57,7 +57,7 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 # Активация сертификата "actual": 1 
-# Деактивация "actual": 2
+# Деактивация "actual": 0
 ###
 PUT https://api-test.pfdo.ru/v2/certificates/9905000111/actual HTTP/1.1
 Content-Type: application/json
