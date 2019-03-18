@@ -89,7 +89,12 @@ export default {
     },
     error() {
        const error = this.$store.getters.errorDetail;
-        if (error.message === "Cannot read property 'data' of undefined") return "Некоректная точка входа"  
+        if (error.message === "Cannot read property 'data' of undefined") {
+          return "Некорhектная точка входа"  
+        }
+        else {
+         return "Неверное имя пользователя или пароль"
+        }
     }
   },
 
@@ -109,7 +114,7 @@ export default {
           username: this.username,
           password: this.password
         })
-        .then(() => this.$router.push("/"))
+        .then(() => this.$router.push("/"));
     },
 
     validateForm(fields) {

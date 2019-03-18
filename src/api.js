@@ -88,7 +88,7 @@ class API {
         return new Promise(resolve => {
           resolve(res)
         })
-      })
+      });
     }
   }
 

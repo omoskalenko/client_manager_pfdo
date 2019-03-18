@@ -129,11 +129,7 @@ export default {
       };
 
       this.fieldErrors = this.validateForm(data);
-      if (Object.keys(this.fieldErrors).length) {
-        console.log(this.fieldErrors);
-        console.log(Object.keys(this.fieldErrors));
-        return;
-      }
+      if (Object.keys(this.fieldErrors).length) return;
 
       this.$store
         .dispatch("createCertificate", data)
@@ -143,7 +139,7 @@ export default {
           setTimeout(() => {
             this.resetForm();
             this.$router.push("/");
-          }, 2000);
+          }, 1000);
         })
         .catch(error => {
           this.error_message = error;
