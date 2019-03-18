@@ -112,9 +112,9 @@ class API {
   activateCertificate(number) {
     return axios({
       method: 'PUT',
-      // baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
+      baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
       //Для деплоя необходимо добавить ${this._ORIGIN}
-      baseURL: `${this._ORIGIN}${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
+      // baseURL: `${this._ORIGIN}${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
       data: {     
         "actual": 1
       }
@@ -124,9 +124,9 @@ class API {
   editCertificate({ number, data }) {
     return axios({
       method: 'PATCH',
-      // baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
+      baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
       //Для деплоя необходимо добавить ${this._ORIGIN}
-      baseURL: `${this._ORIGIN}${this._ROUTES.EDITING_SERTIFICATE(number)}`,
+      // baseURL: `${this._ORIGIN}${this._ROUTES.EDITING_SERTIFICATE(number)}`,
       data
     }).catch(error => console.log(error)
     );
@@ -135,9 +135,9 @@ class API {
   deleteCertificate(number) {
     return axios({
       method: 'DELETE',
-      // baseURL: `${this._ROUTES.REQ_SERTIFICATE(number)}`
+      baseURL: `${this._ROUTES.REQ_SERTIFICATE(number)}`
       //Для деплоя необходимо добавить ${this._ORIGIN}
-      baseURL: `${this._ORIGIN}${this._ROUTES.REQ_SERTIFICATE(number)}`
+      // baseURL: `${this._ORIGIN}${this._ROUTES.REQ_SERTIFICATE(number)}`
     }).catch(error => console.error(error));
   }
 }
