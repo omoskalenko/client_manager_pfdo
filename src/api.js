@@ -112,6 +112,7 @@ class API {
   activateCertificate(number) {
     return axios({
       method: 'PUT',
+      //Для деплоя необходимо добавить ${this._ORIGIN}
       baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
       data: {     
         "actual": 1
@@ -122,6 +123,7 @@ class API {
   editCertificate({ number, data }) {
     return axios({
       method: 'PATCH',
+      //Для деплоя необходимо добавить ${this._ORIGIN}
       baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
       data
     }).catch(error => console.log(error)
@@ -131,6 +133,7 @@ class API {
   deleteCertificate(number) {
     return axios({
       method: 'DELETE',
+      //Для деплоя необходимо добавить ${this._ORIGIN}
       baseURL: `${this._ROUTES.REQ_SERTIFICATE(number)}`
     }).catch(error => console.error(error));
   }
