@@ -110,7 +110,7 @@ class API {
   //В dev запросы через прокси proxy api-test.pfdo.ru
 
   activateCertificate(number) {
-    return axios({
+    return axios.post({
       _method: 'PUT',
       // baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
       //Для деплоя необходимо добавить ${this._ORIGIN}
@@ -122,7 +122,7 @@ class API {
   }
 
   editCertificate({ number, data }) {
-    return axios({
+    return axios.post({
       _method: 'PUT',
       // baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
       //Для деплоя необходимо добавить ${this._ORIGIN}
@@ -133,7 +133,7 @@ class API {
   }
 
   deleteCertificate(number) {
-    return axios({
+    return axios.post({
       _method: 'DELETE',
       // baseURL: `${this._ROUTES.REQ_SERTIFICATE(number)}`
       //Для деплоя необходимо добавить ${this._ORIGIN}
