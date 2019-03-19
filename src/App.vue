@@ -46,6 +46,8 @@ export default {
   },
 
   created() {
+    this.$store.dispatch('readHistory', localStorage.getItem('createHistory'));
+    
     if(localStorage.getItem('access_token')) {
       this.$store.commit('AUTH_SUCCESS');
     } 
@@ -53,6 +55,9 @@ export default {
 
   computed: {
 
+    history() {
+      return this.$store.getters.history;
+    },
     shuldShowNavigation() {
       return this.$route.path !== '/login'
     },

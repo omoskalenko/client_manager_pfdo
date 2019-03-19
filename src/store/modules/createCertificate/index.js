@@ -8,6 +8,11 @@ const state = {
 const mutations = {
   SAVE_NUMBER(state, payload) {
     state.history.push(payload);
+    localStorage.setItem('createHistory', state.history.join(','));
+  },
+
+  READ_HISTORY(state, payload) {
+    state.history = payload.split(',');
   }
 };
 
@@ -38,6 +43,10 @@ const actions = {
         })
       });
   },
+
+  readHistory({ commit }, payload) {
+    commit('READ_HISTORY', payload);
+  }
 
 };
 
