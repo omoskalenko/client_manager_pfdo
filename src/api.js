@@ -115,9 +115,9 @@ class API {
       // baseURL: `${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
       //Для деплоя необходимо добавить ${this._ORIGIN}
       baseURL: `${this._ORIGIN}${this._ROUTES.ACTIVATE_SERTIFICATE(number)}`,
-      data: {     
+      data: JSON.stringify({     
         "actual": 1
-      }
+      })
     })
   }
 
@@ -126,11 +126,11 @@ class API {
       method: 'PATCH',
       // baseURL: `${this._ROUTES.EDITING_SERTIFICATE(number)}`,
       //Для деплоя необходимо добавить ${this._ORIGIN}
-      // headers: {
-      //   'Content-Type': 'text/plain'
-      // },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       baseURL: `${this._ORIGIN}${this._ROUTES.EDITING_SERTIFICATE(number)}`,
-      data
+      data: JSON.stringify(data)
     }).catch(error => console.log(error)
     );
   }
